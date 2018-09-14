@@ -1,0 +1,118 @@
+﻿@model IEnumerable<VNScience.Models.Core.MenuType>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="">
+    <div class="row">
+        <!-- form input mask -->
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Quản lý danh mục bài viết</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content no-padding">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Sửa", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Xóa", "Delete", new { id = item.Id })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /form input mask -->
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $('.js-request-to-delete').on('click', function (e) {
+            e.preventDefault();
+
+            var button = $(this);
+            bootbox.confirm("Yêu cầu xóa danh mục này?", function (result) {
+                if (!result)
+                    return;
+
+                button.closest('tr').find('.js-cell-request-delete').html('<span class="label label-danger">Chờ duyệt</span>');
+                $.ajax({
+                    url: '/Admin/PostCategory/Delete/' + button.attr('data-id'),
+                    type: 'post',
+                    success: function (res) {
+                        if (res.status == 200)
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: 'Đã gửi yêu cầu thành công',
+                                type: 'success',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                        else
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                                type: 'error',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                    },
+                    error: function (err) {
+                        new PNotify({
+                            title: 'Thông báo',
+                            text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                            type: 'error',
+                            styling: 'bootstrap3',
+                            animate: {
+                                animate: true,
+                                in_class: 'slideInDown',
+                                out_class: 'slideOutUp'
+                            },
+                            delay: 2500
+                        });
+                    }
+                });
+            })
+        });
+    </script>
+}
+
+

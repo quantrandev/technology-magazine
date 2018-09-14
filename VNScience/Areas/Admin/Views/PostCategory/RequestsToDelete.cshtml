@@ -1,0 +1,201 @@
+﻿@model IEnumerable<VNScience.Models.Core.PostCategory>
+
+@{
+    ViewBag.Title = "RequestsToDelete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="row">
+        <!-- form input mask -->
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Yêu cầu xóa danh mục</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content no-padding">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IsActive)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IsDisplayed)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @if (item.IsActive.Value)
+                                    {
+                                        <span class="label label-success">Kích hoạt</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label label-danger">Khóa</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.IsDisplayed.Value)
+                                    {
+                                        <span class="label label-success">Có</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label label-danger">Không</span>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Duyệt", "Delete", new { id = item.Id }, new { @data_id = item.Id, @class = "js-accept-request" }) |
+                                    @Html.ActionLink("Hủy", "Delete", new { id = item.Id }, new { @data_id = item.Id, @class = "js-refuse-request" })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /form input mask -->
+    </div>
+</div>
+@section scripts {
+    <script>
+
+        function AcceptRequest(e) {
+            e.preventDefault();
+
+            var button = $(this);
+            bootbox.confirm("Xác nhận xóa danh mục này?", function (result) {
+                if (!result)
+                    return;
+
+                button.closest('tr').remove();
+                $.ajax({
+                    url: '/Admin/PostCategory/Destroy/' + button.attr('data-id'),
+                    type: 'post',
+                    success: function (res) {
+                        if (res.status == 200)
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: 'Đã xóa thành công danh mục',
+                                type: 'success',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                        else
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                                type: 'error',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                    },
+                    error: function (err) {
+                        new PNotify({
+                            title: 'Thông báo',
+                            text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                            type: 'error',
+                            styling: 'bootstrap3',
+                            animate: {
+                                animate: true,
+                                in_class: 'slideInDown',
+                                out_class: 'slideOutUp'
+                            },
+                            delay: 2500
+                        });
+                    }
+                });
+            })
+        }
+        function RefuseRequest(e) {
+            e.preventDefault();
+
+            var button = $(this);
+            bootbox.confirm("Từ chối yêu cầu xóa danh mục này?", function (result) {
+                if (!result)
+                    return;
+
+                button.closest('tr').remove();
+                $.ajax({
+                    url: '/Admin/PostCategory/RefuseRequestToDelete/' + button.attr('data-id'),
+                    type: 'post',
+                    success: function (res) {
+                        if (res.status == 200)
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: 'Đã hủy yêu cầu xóa danh mục',
+                                type: 'success',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                        else
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                                type: 'error',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                    },
+                    error: function (err) {
+                        new PNotify({
+                            title: 'Thông báo',
+                            text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                            type: 'error',
+                            styling: 'bootstrap3',
+                            animate: {
+                                animate: true,
+                                in_class: 'slideInDown',
+                                out_class: 'slideOutUp'
+                            },
+                            delay: 2500
+                        });
+                    }
+                });
+            })
+        }
+
+        $('.js-accept-request').on('click', AcceptRequest);
+        $('.js-refuse-request').on('click', RefuseRequest);
+    </script>
+}

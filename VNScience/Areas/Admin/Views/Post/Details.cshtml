@@ -1,0 +1,196 @@
+﻿@model VNScience.Models.Core.Post
+@using VNScience.Common
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-10">
+        <div>
+            <h4>Chi tiết bài viết</h4>
+            @*<p>
+                    @Html.ActionLink("Sửa", "Edit", new { id = Model.Id }, new { @class = "btn btn-info" })
+                    @Html.ActionLink("Quay về danh sách", "Index", null, new { @class = "btn btn-default" })
+                </p>*@
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.MetaTitle)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.MetaTitle)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Summary)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Summary)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Content)
+                </dt>
+
+                <dd>
+                    <button class="btn btn-info" data-target="#md-content" data-toggle="modal">Xem chi tiết</button>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CoverImage)
+                </dt>
+
+                <dd>
+                    <img src="@Model.CoverImage" style="width: 100px" alt="@Model.Title" />
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ViewCount)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ViewCount)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsApproved)
+                </dt>
+
+                <dd>
+                    @if (Model.IsApproved.Value)
+                    {
+                        <span class="label label-success">Đã duyệt</span>
+                    }
+                    else
+                    {
+                        <span class="label label-danger">Chưa duyệt</span>
+                    }
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </dt>
+
+                <dd>
+                    @DateTimeHelper.FormatDate(Model.CreatedAt.Value, DateTimeHelper.MaxDay)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CreatingUser.FullName)
+                </dd>
+
+                <dt>
+                    @if (Model.UpdatedAt.HasValue)
+                    {
+                        @(DateTimeHelper.FormatDate(Model.UpdatedAt.Value, DateTimeHelper.MaxDay))
+                    }
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.UpdatedAt)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.UpdatedBy)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.UpdatingUser.FullName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.PostCategory)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PostCategory.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.References)
+                </dt>
+
+                <dd>
+                    @{
+                        var references = Model.References.Split(',');
+                        foreach (var item in references)
+                        {
+                            <span class="label label-info">@item</span>
+                        }
+                    }
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Tags)
+                </dt>
+
+                <dd>
+                    @{
+                        foreach (var item in Model.Tags)
+                        {
+                            <span class="label label-info">@item.Name</span>
+                        }
+                    }
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+
+@if (Roles.IsUserInRole(RoleName.Admin))
+{
+    <p>
+        @Html.ActionLink("Quay về danh sách", "RequestsToApprove", null, new { @class = "btn btn-default" })
+    </p>
+}
+@if (Roles.IsUserInRole(RoleName.PostMod))
+{
+    <p>
+        @Html.ActionLink("Sửa", "Edit", new { id = Model.Id }, new { @class = "btn btn-info" })
+        @Html.ActionLink("Quay về danh sách", "Index", null, new { @class = "btn btn-default" })
+    </p>
+}
+
+<div id="md-content" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Nội dung bài viết</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Raw(Model.Content)
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section styles {
+    <style>
+        dt, dd {
+            display: block;
+        }
+    </style>
+}

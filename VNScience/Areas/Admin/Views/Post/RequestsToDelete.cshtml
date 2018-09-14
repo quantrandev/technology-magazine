@@ -1,0 +1,225 @@
+﻿@model IEnumerable<VNScience.Models.Core.Post>
+@using VNScience.Common
+@{
+    ViewBag.Title = "DeletedRequests";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="row">
+        <!-- form input mask -->
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Yêu cầu xóa bài viết</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content no-padding">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="width: 80px;">
+                                @Html.DisplayNameFor(model => model.CoverImage)
+                            </th>
+                            <th style="width: 350px;">
+                                @Html.DisplayNameFor(model => model.Title)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.ViewCount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreatedAt)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreatedBy)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UpdatedAt)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UpdatedBy)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PostCategory)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@item.CoverImage" alt="@item.Title" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ViewCount)
+                                </td>
+                                <td>
+                                    @DateTimeHelper.FormatDate(item.CreatedAt.Value)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatingUser.FullName)
+                                </td>
+                                <td>
+                                    @if (item.UpdatedAt.HasValue)
+                                    {
+                                        @(DateTimeHelper.FormatDate(item.UpdatedAt.Value))
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdatingUser.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PostCategory.Name)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Duyệt", "PermanentDelete", new { id = item.Id }, new { @class = "js-permanent-delete", @data_id = item.Id }) | 
+                                    @Html.ActionLink("Hủy", "RefusePermanentDelete", new { id = item.Id }, new { @class = "js-refuse-permanent-delete", @data_id = item.Id })
+                                </td>
+
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /form input mask -->
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        function Accept(e) {
+            e.preventDefault();
+
+            var $button = $(this);
+            bootbox.confirm("Xóa vĩnh viễn bài viết này?", function (result) {
+                if (!result)
+                    return;
+
+                $button.closest('tr').remove();
+                $.ajax({
+                    url: '/Admin/Post/PermanentDelete/' + $button.attr('data-id'),
+                    type: 'post',
+                    success: function (res) {
+                        if (res.status == 200)
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: res.message,
+                                type: 'success',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                        else
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                                type: 'error',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                    },
+                    error: function (err) {
+                        new PNotify({
+                            title: 'Thông báo',
+                            text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                            type: 'error',
+                            styling: 'bootstrap3',
+                            animate: {
+                                animate: true,
+                                in_class: 'slideInDown',
+                                out_class: 'slideOutUp'
+                            },
+                            delay: 2500
+                        });
+                    }
+                });
+            })
+        }
+
+        function Refuse(e) {
+            e.preventDefault();
+
+            var $button = $(this);
+            bootbox.confirm("Từ chối xóa bài viết này?", function (result) {
+                if (!result)
+                    return;
+
+                $button.closest('tr').remove();
+                $.ajax({
+                    url: '/Admin/Post/RefusePermanentDelete/' + $button.attr('data-id'),
+                    type: 'post',
+                    success: function (res) {
+                        if (res.status == 200)
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: res.message,
+                                type: 'success',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                        else
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                                type: 'error',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                    },
+                    error: function (err) {
+                        new PNotify({
+                            title: 'Thông báo',
+                            text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                            type: 'error',
+                            styling: 'bootstrap3',
+                            animate: {
+                                animate: true,
+                                in_class: 'slideInDown',
+                                out_class: 'slideOutUp'
+                            },
+                            delay: 2500
+                        });
+                    }
+                });
+            })
+        }
+
+        $('.js-permanent-delete').on('click', Accept);
+        $('.js-refuse-permanent-delete').on('click', Refuse);
+    </script>
+}
+

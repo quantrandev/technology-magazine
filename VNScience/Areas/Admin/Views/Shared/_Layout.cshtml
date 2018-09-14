@@ -1,0 +1,160 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="images/favicon.ico" type="image/ico" />
+    <title>Gentelella Alela! | </title>
+    <!-- Bootstrap -->
+    <link href="~/Areas/Admin/Assets/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="~/Areas/Admin/Assets/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="~/Areas/Admin/Assets/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="~/Areas/Admin/Assets/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+
+    <!-- bootstrap-progressbar -->
+    <link href="~/Areas/Admin/Assets/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- JQVMap -->
+    <link href="~/Areas/Admin/Assets/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet" />
+    <!-- bootstrap-daterangepicker -->
+    <link href="~/Areas/Admin/Assets/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!--Animate.css-->
+    <link href="~/Areas/Admin/Assets/vendors/animate.css/animate.min.css" rel="stylesheet" />
+    <!-- PNotify -->
+    <link href="~/Areas/Admin/Assets/vendors/pnotify/dist/pnotify.css" rel="stylesheet">
+    <link href="~/Areas/Admin/Assets/vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
+    <link href="~/Areas/Admin/Assets/vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
+    <!--Bootstrap multiselect-->
+    <link href="~/Areas/Admin/Assets/vendors/bootstrap-multiselect-master/dist/css/bootstrap-multiselect.css" rel="stylesheet" />
+
+    <!-- Custom Theme Style -->
+    <link href="~/Areas/Admin/Assets/build/css/custom.min.css" rel="stylesheet">
+    <style>
+        table img {
+            max-width: 100%;
+        }
+
+        table th:last-child {
+            min-width: 130px;
+        }
+
+        table td:last-child, table th:last-child {
+            background-color: #f9f9f9;
+        }
+
+        .panel_toolbox {
+            min-width: 30px !important;
+        }
+
+        dt, dd {
+            padding: 5px 0;
+        }
+
+        .tag {
+            background-color: #26B99A !important;   
+        }
+
+        /*ultilities*/
+        .m-r-5 {
+            margin-right: 5px !important;
+        }
+        .m-l-5 {
+            margin-left: 5px !important;
+        }
+    </style>
+    @RenderSection("styles", false)
+</head>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                @{
+                    Html.RenderAction("Sidebar", "Common", new { area = "Admin" });
+                }
+            </div>
+            <!-- top navigation -->
+            <div class="top_nav">
+                @{
+                    Html.RenderAction("Navigation", "Common", new { area = "Admin" });
+                }
+            </div>
+            <!-- /top navigation -->
+            <!-- page content -->
+            <div class="right_col" role="main">
+                @RenderBody()
+            </div>
+            <!-- /page content -->
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+                    Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+    <!-- jQuery -->
+    <script src="~/Areas/Admin/Assets/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="~/Areas/Admin/Assets/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="~/Areas/Admin/Assets/vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="~/Areas/Admin/Assets/vendors/nprogress/nprogress.js"></script>
+    <!-- Chart.js -->
+    <script src="~/Areas/Admin/Assets/vendors/Chart.js/dist/Chart.min.js"></script>
+    <!-- gauge.js -->
+    <script src="~/Areas/Admin/Assets/vendors/gauge.js/dist/gauge.min.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="~/Areas/Admin/Assets/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="~/Areas/Admin/Assets/vendors/iCheck/icheck.min.js"></script>
+    <!-- Skycons -->
+    <script src="~/Areas/Admin/Assets/vendors/skycons/skycons.js"></script>
+    <!-- Flot -->
+    <script src="~/Areas/Admin/Assets/vendors/Flot/jquery.flot.js"></script>
+    <script src="~/Areas/Admin/Assets/vendors/Flot/jquery.flot.pie.js"></script>
+    <script src="~/Areas/Admin/Assets/vendors/Flot/jquery.flot.time.js"></script>
+    <script src="~/Areas/Admin/Assets/vendors/Flot/jquery.flot.stack.js"></script>
+    <script src="~/Areas/Admin/Assets/vendors/Flot/jquery.flot.resize.js"></script>
+    <!-- Flot plugins -->
+    <script src="~/Areas/Admin/Assets/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+    <script src="~/Areas/Admin/Assets/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <script src="~/Areas/Admin/Assets/vendors/flot.curvedlines/curvedLines.js"></script>
+    <!-- DateJS -->
+    <script src="~/Areas/Admin/Assets/vendors/DateJS/build/date.js"></script>
+    <!-- JQVMap -->
+    <script src="~/Areas/Admin/Assets/vendors/jqvmap/dist/jquery.vmap.js"></script>
+    <script src="~/Areas/Admin/Assets/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+    <script src="~/Areas/Admin/Assets/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="~/Areas/Admin/Assets/vendors/moment/min/moment.min.js"></script>
+    <script src="~/Areas/Admin/Assets/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- PNotify -->
+    <script src="~/Areas/Admin/Assets/vendors/pnotify/dist/pnotify.js"></script>
+    <script src="~/Areas/Admin/Assets/vendors/pnotify/dist/pnotify.buttons.js"></script>
+    <script src="~/Areas/Admin/Assets/vendors/pnotify/dist/pnotify.nonblock.js"></script>
+    <!--Bootbox.js-->
+    <script src="~/Areas/Admin/Assets/vendors/bootbox.min.js"></script>
+    <!--Bootstrap multiselect-->
+    <script src="~/Areas/Admin/Assets/vendors/bootstrap-multiselect-master/dist/js/bootstrap-multiselect.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="~/Areas/Admin/Assets/build/js/custom.min.js"></script>
+    @{
+        Html.RenderAction("Flash", "Common", new { area = "Admin" });
+    }
+    @RenderSection("scripts", false)
+</body>
+</html>
+

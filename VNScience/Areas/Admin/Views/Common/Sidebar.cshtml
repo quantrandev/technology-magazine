@@ -1,0 +1,153 @@
+﻿@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.EntityFramework;
+@using VNScience.Models;
+@using VNScience.Common;
+<div class="left_col scroll-view">
+    <div class="navbar nav_title" style="border: 0;">
+        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+    </div>
+    <div class="clearfix"></div>
+    <!-- menu profile quick info -->
+    <div class="profile clearfix">
+        <div class="profile_pic">
+            <img src="@{Html.RenderAction("Avatar", "Common", new { area = "Admin" });}" alt="..." class="img-circle profile_img" style="width: 60px; height: 60px;">
+        </div>
+        <div class="profile_info">
+            <span>Quản trị viên</span>
+            <h2>@{ Html.RenderAction("FullName", "Common", new { area = "Admin" });}</h2>
+        </div>
+    </div>
+    <!-- /menu profile quick info -->
+    <br />
+    <!-- sidebar menu -->
+    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+        <div class="menu_section">
+            <h3>General</h3>
+            <ul class="nav side-menu">
+                <li class="home">
+                    <a href="/Admin"><i class="fa fa-home"></i> DASHBOARD</a>
+                </li>
+                @if (Roles.IsUserInRole(RoleName.PostMod))
+                {
+                    <li>
+                        <a>
+                            <i class="fa fa-th-list"></i> DANH MỤC BÀI VIẾT
+                            <span class="fa fa-chevron-down"></span>
+                        </a>
+                        <ul class="nav child_menu">
+                            <li><a href="/Admin/PostCategory/">DANH SÁCH DANH MỤC</a></li>
+                            <li><a href="/Admin/PostCategory/Create/">THÊM DANH MỤC</a></li>
+                        </ul>
+                    </li>
+                }
+                @if (Roles.IsUserInRole(RoleName.Admin) || Roles.IsUserInRole(RoleName.PostMod))
+                {
+                    <li class="post">
+                        <a>
+                            <i class="fa fa-newspaper-o"></i> BÀI VIẾT
+                            <span class="fa fa-chevron-down"></span>
+                        </a>
+                        <ul class="nav child_menu">
+                            @if (Roles.IsUserInRole(RoleName.Admin))
+                            {
+                                <li>
+                                    <a href="/Admin/Post/RequestsToApprove/">
+                                        DUYỆT BÀI ĐĂNG
+                                        @if (ViewBag.PostRequestsToApproveCount != 0)
+                                        {
+                                            <span class="badge badge-info pull-right">@ViewBag.PostRequestsToApproveCount</span>
+                                        }
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/Admin/Post/RequestsToDelete/">
+                                        DUYỆT XÓA BÀI
+                                        @if (ViewBag.PostRequestsToDeleteCount != 0)
+                                        {
+                                            <span class="badge badge-info pull-right">@ViewBag.PostRequestsToDeleteCount</span>
+                                        }
+                                    </a>
+                                </li>
+                                <li><a href="/Admin/Post/ApprovedPosts/">ĐÃ DUYỆT</a></li>
+                            }
+                            @if (Roles.IsUserInRole(RoleName.PostMod))
+                            {
+                                <li><a href="/Admin/Post/">DANH SÁCH BÀI VIẾT</a></li>
+                                <li><a href="/Admin/Post/Create/">THÊM BÀI VIẾT</a></li>
+                                <li><a href="/Admin/Post/ModRequestsToApprove">BÀI ĐĂNG CHỜ DUYỆT</a></li>
+                            }
+                        </ul>
+                    </li>
+                }
+                @if (Roles.IsUserInRole(RoleName.Admin))
+                {
+                    <li>
+                        <a>
+                            <i class="fa fa-th-list"></i>  DANH MỤC BÀI VIẾT
+                            <span class="fa fa-chevron-down"></span>
+                        </a>
+                        <ul class="nav child_menu">
+                            <li>
+                                <a href="/Admin/PostCategory/RequestsToDelete/">
+
+                                    DUYỆT XÓA
+                                    @if (ViewBag.PostCategoryRequestsToDeleteCount != 0)
+                                    {
+                                        <span class="badge badge-info pull-right">@ViewBag.PostCategoryRequestsToDeleteCount</span>
+                                    }
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="user">
+                        <a href="/Admin/Account/"><i class="fa fa-users"></i> NGƯỜI DÙNG</a>
+                    </li>
+                    <li class="system">
+                        <a><i class="fa fa-cogs"></i> HỆ THỐNG</a>
+                    </li>
+                }
+                @if (Roles.IsUserInRole(RoleName.SystemMod))
+                {
+                    <li class="branch">
+                        <a><i class="fa fa-building-o"></i> CHI NHÁNH - TRỤ SỞ</a>
+                    </li>
+                    <li class="recruitment">
+                        <a><i class="fa fa-suitcase"></i> TUYỂN DỤNG</a>
+                    </li>
+                    <li class="contact">
+                        <a><i class="fa fa-envelope-o"></i> LIÊN HỆ</a>
+                    </li>
+                    <li class="system">
+                        <a><i class="fa fa-cogs"></i> HỆ THỐNG</a>
+                    </li>
+                    <li class="system">
+                        <a href="/Admin/Menu/">
+                            <i class="fa fa-bars"></i> MENU
+                            @*<span class="fa fa-chevron-down"></span>*@
+                        </a>
+                        @*<ul class="nav child_menu">
+                            <li><a href="/Admin/Menu/">MENU</a></li>
+                        </ul>*@
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <!-- /sidebar menu -->
+    <!-- /menu footer buttons -->
+    <div class="sidebar-footer hidden-small">
+        <a data-toggle="tooltip" data-placement="top" title="Settings">
+            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+            <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="Lock">
+            <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+        </a>
+    </div>
+    <!-- /menu footer buttons -->
+</div>

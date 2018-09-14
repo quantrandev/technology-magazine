@@ -1,0 +1,213 @@
+﻿@model IEnumerable<VNScience.ViewModels.PostViewModel>
+@using VNScience.Common
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="row">
+        <!-- form input mask -->
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Quản lý bài viết <small><i class="fa fa-plus-square"></i> @Html.ActionLink("Đăng bài", "Create")</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content no-padding">
+                    <div class="row">
+                        <div class="col-md-4 col-xs-12">
+                            <form action="/Admin/Post/" method="get">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <input type="text" name="searchString" class="form-control" placeholder="Nhập tiêu đề, nội dung, tác giả, ..."/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="submit" class="btn btn-info">Tìm kiếm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <table class="table table-bordered table-striped">
+                        <tr>
+                            <th style="width: 80px">
+                                @Html.DisplayNameFor(model => model.CoverImage)
+                            </th>
+                            <th style="width: 300px;">
+                                @Html.DisplayNameFor(model => model.Title)
+                            </th>
+                            <th style="width: 80px">
+                                @Html.DisplayNameFor(model => model.ViewCount)
+                            </th>
+                            <th style="width: 80px;">
+                                @Html.DisplayNameFor(model => model.IsApproved)
+                            </th>
+                            <th style="width: 80px;">
+                                @Html.DisplayNameFor(model => model.IsRequestedDelete)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.PostCategory)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreatedAt)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreatedBy)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UpdatedAt)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UpdatedBy)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@item.CoverImage" alt="@item.Title" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ViewCount)
+                                </td>
+                                <td>
+                                    @if (item.IsApproved.Value)
+                                    {
+                                        <span class="label label-success">Đã duyệt</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label label-danger">Chờ duyệt</span>
+                                    }
+                                </td>
+                                <td class="js-cell-approve">
+                                    @if (item.IsRequestedDelete.Value)
+                                    {
+                                        <span class="label label-danger">Chờ duyệt</span>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PostCategory.Name)
+                                </td>
+                                <td>
+                                    @DateTimeHelper.FormatDate(item.CreatedAt.Value, DateTimeHelper.MaxDay)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatingUser.FullName)
+                                </td>
+                                <td>
+                                    @if (item.UpdatedAt.HasValue)
+                                    {
+                                        @(DateTimeHelper.FormatDate(item.UpdatedAt.Value, DateTimeHelper.MaxDay))
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.UpdatingUser.FullName)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Sửa", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Chi tiết", "Details", new { id = item.Id })
+                                    @if (!item.IsRequestedDelete.Value)
+                                    {
+                                        <span>|</span> @Html.ActionLink("Xóa", "Delete", new { id = item.Id }, new { @data_id = item.Id, @class = "js-delete" })
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /form input mask -->
+    </div>
+</div>
+@section scripts {
+    <script>
+        var deleteType = {
+            Destroy: 2,
+            WaitingForAccept: 1
+        }
+
+        $('.js-delete').on('click', function (e) {
+            e.preventDefault();
+
+            var button = $(this);
+            bootbox.confirm("Xóa bài viết này?", function (result) {
+                if (!result)
+                    return;
+
+                $.ajax({
+                    url: '/Admin/Post/Delete/' + button.attr('data-id'),
+                    type: 'post',
+                    success: function (res) {
+                        console.log(res.deleteType);
+                        if (res.deleteType == deleteType.WaitingForAccept)
+                            button.closest('tr').find('.js-cell-approve').html('<span class="label label-danger">Chờ duyệt</span>');
+                        if (res.deleteType == deleteType.Destroy)
+                            button.closest('tr').remove();
+
+                        if (res.status == 200)
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: res.message,
+                                type: 'success',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                        else
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                                type: 'error',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                    },
+                    error: function (err) {
+                        new PNotify({
+                            title: 'Thông báo',
+                            text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                            type: 'error',
+                            styling: 'bootstrap3',
+                            animate: {
+                                animate: true,
+                                in_class: 'slideInDown',
+                                out_class: 'slideOutUp'
+                            },
+                            delay: 2500
+                        });
+                    }
+                });
+            })
+        });
+    </script>
+}
+

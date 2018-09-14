@@ -1,0 +1,187 @@
+﻿@model VNScience.ViewModels.PostViewModel
+@using VNScience.Common
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-10">
+        @using (Html.BeginForm("Edit", "Post", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Content)
+            @Html.HiddenFor(model => model.CreatedAt)
+            @Html.HiddenFor(model => model.CreatedBy)
+            @Html.HiddenFor(model => model.ViewCount)
+            @Html.HiddenFor(model => model.IsApproved)
+            @Html.HiddenFor(model => model.IsRequestedDelete)
+            @Html.HiddenFor(model => model.UpdatedAt)
+            @Html.HiddenFor(model => model.UpdatedBy)
+            @Html.HiddenFor(model => model.CoverImage)
+
+            <div class="form-horizontal">
+                <h4>Chỉnh sửa bài viết</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CoverImage, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <img style="width: 100px;" src="@Model.CoverImage" alt="@Model.Title" />
+                        </div>
+                        <label>Thay đổi</label>
+                        <input type="file" name="CoverImage" class="form-control" />
+                        @Html.ValidationMessageFor(model => model.CoverImage, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MetaTitle, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.MetaTitle, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MetaTitle, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Summary, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Summary, new { @class = "form-control", @rows = 8 })
+                        @Html.ValidationMessageFor(model => model.Summary, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @{
+                            Html.RenderAction("Select", "Common", (MySelectList)ViewBag.PostCategories);
+                        }
+                        @Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.References, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.References, new { htmlAttributes = new { @class = "tags form-control" } })
+                        @Html.ValidationMessageFor(model => model.References, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TagIds, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @{
+                            Html.RenderAction("MultiSelect", "Common", (MySelectList)ViewBag.Tags);
+                        }
+                        @Html.ValidationMessageFor(model => model.TagIds, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MoreTags, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.MoreTags, new { htmlAttributes = new { @class = "tags form-control" } })
+                        @Html.ValidationMessageFor(model => model.MoreTags, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <button type="button" class="btn btn-info js-insert-content"><i class="fa fa-edit"></i> Soạn bài viết</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Lưu" class="btn btn-success" />
+                        @Html.ActionLink("Quay về danh sách", "Index", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div id="md-content" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Đăng bài</h4>
+            </div>
+            <div class="modal-body no-padding">
+                <textarea id="js-content">
+@Model.Content
+</textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success js-finish-insert-content" type="button" data-dismiss="modal"><i class="fa fa-check"></i> Hoàn tất</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section styles {
+    <link href="~/Areas/Admin/Assets/vendors/jquery.tagsinput/dist/jquery.tagsinput.min.css" rel="stylesheet" />
+
+    <style>
+    </style>
+}
+
+@section scripts {
+    <script src="//cdn.ckeditor.com/4.10.1/standard/ckeditor.js"></script>
+    <script src="~/Areas/Admin/Assets/vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+
+    <script>
+        window.onbeforeunload = function () {
+            $.ajax({
+                url: '/Admin/Post/MarkAsCanEdit/' + $('#Id').val(),
+                type: 'post',
+                async: false,
+                success: function () { },
+                error: function () {}
+            });
+        }
+
+        $('.js-insert-content').on('click', function () {
+            $('#md-content').modal('show');
+        });
+        $('.js-finish-insert-content').on('click', function () {
+            $('.js-insert-content').html('<i class="fa fa-check"></i> Soạn bài đăng');
+            $('.js-insert-content').attr('class', 'btn btn-success')
+        });
+
+        //tags input
+        $('.tags').tagsInput({
+            'width': '100%',
+            'defaultText': '',
+        });
+
+        //multiselect
+        $('select[multiple=multiple]').multiselect({
+
+        });
+
+        var editor = CKEDITOR.replace('js-content');
+        editor.on('change', function () {
+            //sync data
+            $('#Content').val(editor.getData());
+        });
+    </script>
+}

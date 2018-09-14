@@ -1,0 +1,39 @@
+﻿@model IEnumerable<VNScience.Common.Flash>
+
+<script>
+    PNotify.removeAll();
+</script>
+
+@foreach (var item in Model)
+{
+    var jsType = "";
+    switch (item.Type)
+    {
+        case VNScience.Common.MessageType.Success:
+            jsType = "success";
+            break;
+        case VNScience.Common.MessageType.Error:
+            jsType = "error";
+            break;
+        case VNScience.Common.MessageType.Warning:
+            jsType = "warning";
+            break;
+    }
+    <script>
+        new PNotify({
+            title: '@item.Title',
+            text: '@item.Message',
+            type: '@jsType',
+            styling: 'bootstrap3',
+            animate: {
+                animate: true,
+                in_class: 'slideInDown',
+                out_class: 'slideOutUp'
+            },
+            delay: 2500
+        });
+    </script>
+}
+
+
+

@@ -1,0 +1,119 @@
+﻿@model VNScience.Models.Core.PostCategory
+@using VNScience.Common
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-10">
+        <div>
+            <h4>Chi tiết danh mục bài viết</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.MetaTitle)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.MetaTitle)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </dt>
+
+                <dd>
+                    @if (Model.IsActive.Value)
+                    {
+                        <span class="label label-success">Kích hoạt</span>
+                    }
+                    else
+                    {
+                        <span class="label label-danger">Khóa</span>
+                    }
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsDisplayed)
+                </dt>
+
+                <dd>
+                    @if (Model.IsDisplayed.Value)
+                    {
+                        <span class="label label-success">Có</span>
+                    }
+                    else
+                    {
+                        <span class="label label-danger">Không</span>
+                    }
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.DisplayOrder)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DisplayOrder)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </dt>
+
+                <dd>
+                    @(DateTimeHelper.FormatDate(Model.CreatedAt.Value))
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CreatingUser.FullName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.UpdatedAt)
+                </dt>
+
+                <dd>
+                    @if (Model.UpdatedAt.HasValue)
+                    {
+                        @(DateTimeHelper.FormatDate(Model.UpdatedAt.Value))
+                    }
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.UpdatedBy)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.UpdatingUser.FullName)
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.Id }, new { @class = "btn btn-info" })
+    @Html.ActionLink("Quay về danh sách", "Index", null, new { @class = "btn btn-default" })
+</p>

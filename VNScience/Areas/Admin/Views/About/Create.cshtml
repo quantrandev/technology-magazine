@@ -1,0 +1,52 @@
+﻿@model VNScience.Models.Core.About
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                <h4>Thêm thông tin giới thiệu</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IsDisplayed, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <label>@Html.RadioButtonFor(model => model.IsDisplayed, true, new { htmlAttributes = new { @class = "form-control" } }) Hiển thị</label>
+                        <label>@Html.RadioButtonFor(model => model.IsDisplayed, false, new { htmlAttributes = new { @class = "form-control" } }) Không hiển thị</label>
+                        @Html.ValidationMessageFor(model => model.IsDisplayed, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Content, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <textarea name="Content" id="js-content"></textarea>
+                        @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Lưu" class="btn btn-success" />
+                        @Html.ActionLink("Quay về danh sách", "Index", null, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section scripts {
+    <script src="//cdn.ckeditor.com/4.10.1/standard/ckeditor.js"></script>
+    <script>
+        var editor = CKEDITOR.replace('js-content');
+    </script>
+}

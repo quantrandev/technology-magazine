@@ -20,6 +20,8 @@ namespace VNScience.Models
         public virtual ICollection<Post> UpdatedPosts { get; set; }
         public virtual ICollection<Menu> CreatedMenus { get; set; }
         public virtual ICollection<Menu> UpdatedMenus { get; set; }
+        public virtual ICollection<About> CreatedAbouts { get; set; }
+        public virtual ICollection<About> UpdatedAbouts { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -208,6 +210,19 @@ namespace VNScience.Models
             modelBuilder.Entity<Menu>()
                 .HasOptional(e => e.CreatingUser)
                 .WithMany(e => e.CreatedMenus)
+                .HasForeignKey(e => e.CreatedBy)
+                .WillCascadeOnDelete(false);
+
+            //user vs about
+            modelBuilder.Entity<About>()
+                 .HasOptional(e => e.UpdatingUser)
+                 .WithMany(e => e.UpdatedAbouts)
+                 .HasForeignKey(e => e.UpdatedBy)
+                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<About>()
+                .HasOptional(e => e.CreatingUser)
+                .WithMany(e => e.CreatedAbouts)
                 .HasForeignKey(e => e.CreatedBy)
                 .WillCascadeOnDelete(false);
         }

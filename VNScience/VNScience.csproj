@@ -230,6 +230,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AboutController.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
     <Compile Include="Areas\Admin\Controllers\AuthController.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="Areas\Admin\Controllers\PostCategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProfileController.cs" />
+    <Compile Include="Areas\Admin\DataAccess\AboutDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\MenuDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\MenuTypeDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\PostCategoryDAO.cs" />
@@ -313,6 +315,10 @@
     <Compile Include="Migrations\201809140811496_AddMenuAndUserRelationship.cs" />
     <Compile Include="Migrations\201809140811496_AddMenuAndUserRelationship.Designer.cs">
       <DependentUpon>201809140811496_AddMenuAndUserRelationship.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809141400338_AddUserAndAboutRelationship.cs" />
+    <Compile Include="Migrations\201809141400338_AddUserAndAboutRelationship.Designer.cs">
+      <DependentUpon>201809141400338_AddUserAndAboutRelationship.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
@@ -4774,6 +4780,9 @@
     <Content Include="Areas\Admin\Views\Menu\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Menu\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Menu\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\About\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\About\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\About\Edit.cshtml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -4830,6 +4839,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809140811496_AddMenuAndUserRelationship.resx">
       <DependentUpon>201809140811496_AddMenuAndUserRelationship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809141400338_AddUserAndAboutRelationship.resx">
+      <DependentUpon>201809141400338_AddUserAndAboutRelationship.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

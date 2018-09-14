@@ -187,11 +187,11 @@ namespace VNScience.Common
             string minute = "phút";
             string hour = "giờ";
             string day = "ngày";
-            string justNow = "vừa xong";
+            string justNow = "Vừa xong";
 
             var interval = DateTime.Now - dateTime;
 
-            if (interval.TotalSeconds == 0)
+            if (Math.Floor(interval.TotalSeconds) == 0)
                 return justNow;
 
             if (interval.TotalDays < 1)

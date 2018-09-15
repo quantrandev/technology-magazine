@@ -128,10 +128,13 @@
 
                 <dd>
                     @{
-                        var references = Model.References.Split(',');
-                        foreach (var item in references)
+                        if (Model.References != null)
                         {
-                            <span class="label label-info">@item</span>
+                            var references = Model.References.Split(',');
+                            foreach (var item in references)
+                            {
+                                <span class="label label-info">@item</span>
+                            }
                         }
                     }
                 </dd>

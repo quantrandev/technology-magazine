@@ -1,9 +1,54 @@
-﻿<html xmlns="http://www.w3.org/1999/xhtml">
+﻿<!DOCTYPE HTML>
+<html lang="en">
 <head>
-    <title></title>
+    <title>Newsbit</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css?family=Encode+Sans+Expanded:400,600,700" rel="stylesheet">
+
+    <!-- Stylesheets -->
+
+    <link href="/Assets/plugin-frameworks/bootstrap.css" rel="stylesheet">
+
+    <link href="/Assets/fonts/ionicons.css" rel="stylesheet">
+
+    <link href="~/Assets/animate.css/animate.min.css" rel="stylesheet" />
+    <link href="/Assets/common/styles.css" rel="stylesheet">
+
 </head>
 <body>
-    @RenderBody()
+
+    @{
+        Html.RenderAction("Header", "Common", new { area = "" });
+    }
+
+    @RenderSection("page_header", false)
+
+
+    <section>
+        <div class="container">
+            @RenderBody()<!-- row -->
+        </div><!-- container -->
+    </section>
+
+
+    @{
+        Html.RenderAction("Footer", "Common", new { area = "" });
+    }
+
+    <!-- SCIPTS -->
+
+    <script src="/Assets/plugin-frameworks/jquery-3.2.1.min.js"></script>
+
+    <script src="/Assets/plugin-frameworks/tether.min.js"></script>
+
+    <script src="/Assets/plugin-frameworks/bootstrap.js"></script>
+
+    <script src="/Assets/common/scripts.js"></script>
+
     @RenderSection("scripts", false)
 </body>
 </html>

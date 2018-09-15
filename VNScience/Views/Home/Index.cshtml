@@ -1,31 +1,279 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using VNScience.Models.Core
+@using VNScience.Common
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var topHot = (List<Post>)ViewBag.TopHot;
+    var recent = (List<Post>)ViewBag.Recent;
+    var mostViews = (List<Post>)ViewBag.MostViews;
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
+
+    <div class="col-md-12 col-lg-8">
+        <h4 class="p-title"><b>XEM NHIỀU NHẤT</b></h4>
+        <div class="row">
+
+            <div class="col-sm-6">
+                <img src="@mostViews.Skip(0).Take(1).First().CoverImage" alt="">
+                <h4 class="pt-20"><a href="#"><b>@mostViews.Skip(0).Take(1).First().Title</b></a></h4>
+                <ul class="list-li-mr-20 pt-10 pb-20">
+                    <li class="color-lite-black">
+                        by <a href="#" class="color-black"><b>@mostViews.Skip(0).Take(1).First().CreatingUser.FullName,</b></a>
+                        @DateTimeHelper.FormatDate(mostViews.Skip(0).Take(1).First().CreatedAt.Value)
+                    </li>
+                    <li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i><b>@mostViews.Skip(0).Take(1).First().ViewCount</b></li>
+                    @*<li><i class="color-primary mr-5 font-12 ion-chatbubbles"></i><b>47</b></li>*@
+                </ul>
+                <p>
+                    @mostViews.Skip(0).Take(1).First().Summary
+                </p>
+            </div><!-- col-sm-6 -->
+
+            <div class="col-sm-6">
+                @foreach (var item in mostViews.Skip(1).Take(4))
+                {
+                    <a class="oflow-hidden pos-relative mb-20 dplay-block" href="#">
+                        <div class="wh-100x abs-tlr"><img src="@item.CoverImage" alt=""></div>
+                        <div class="ml-120 min-h-100x">
+                            <h5 class="font-9"><b>@item.Title</b></h5>
+                            <h6 class="color-lite-black pt-10">by <span class="color-black"><b>@item.CreatingUser.FullName,</b></span> @DateTimeHelper.FormatDate(item.CreatedAt.Value)</h6>
+                        </div>
+                    </a><!-- oflow-hidden -->
+                }
+            </div><!-- col-sm-6 -->
+
+        </div><!-- row -->
+
+        <h4 class="p-title mt-30"><b>MỚI CẬP NHẬT</b></h4>
+        <div class="row" id="js-recent">
+            @foreach (var item in recent)
+            {
+                <div class="col-sm-6">
+                    <img src="@item.CoverImage" alt="">
+                    <h4 class="pt-20 font-11"><a href="#"><b>@item.Title</b></a></h4>
+                    <ul class="list-li-mr-20 pt-10 mb-30">
+                        <li class="color-lite-black">
+                            by <a href="#" class="color-black"><b>@item.CreatingUser.FullName,</b></a>
+                            @DateTimeHelper.FormatDate(item.CreatedAt.Value)
+                        </li>
+                        <li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>@item.ViewCount</li>
+                        @*<li><i class="color-primary mr-5 font-12 ion-chatbubbles"></i>47</li>*@
+                    </ul>
+                </div>
+            }
+        </div><!-- row -->
+        <a class="dplay-block btn-brdr-primary mt-20 mb-md-50" href="javascript:void(0)" data-next-page="2" data-page-size="10" id="js-view-more"><b>XEM THÊM</b></a>
+    </div><!-- col-md-9 -->
+
+    <div class="d-none d-md-block d-lg-none col-md-3"></div>
+    <div class="col-md-6 col-lg-4">
+        <div class="pl-20 pl-md-0">
+            <div>
+                <h4 class="p-title"><b>BÌNH LUẬN NHIỀU</b></h4>
+                <a class="oflow-hidden pos-relative mb-20 dplay-block" href="#">
+                    <div class="wh-100x abs-tlr"><img src="images/polular-1-100x100.jpg" alt=""></div>
+                    <div class="ml-120 min-h-100x">
+                        <h5><b>Bitcoin Billionares Hidding in Plain Sight</b></h5>
+                        <h6 class="color-lite-black pt-10">by <span class="color-black"><b>Danile Palmer,</b></span> Jan 25, 2018</h6>
+                    </div>
+                </a><!-- oflow-hidden -->
+
+                <a class="oflow-hidden pos-relative mb-20 dplay-block" href="#">
+                    <div class="wh-100x abs-tlr"><img src="images/polular-2-100x100.jpg" alt=""></div>
+                    <div class="ml-120 min-h-100x">
+                        <h5><b>Bitcoin Billionares Hidding in Plain Sight</b></h5>
+                        <h6 class="color-lite-black pt-10">by <span class="color-black"><b>Danile Palmer,</b></span> Jan 25, 2018</h6>
+                    </div>
+                </a><!-- oflow-hidden -->
+
+                <a class="oflow-hidden pos-relative mb-20 dplay-block" href="#">
+                    <div class="wh-100x abs-tlr"><img src="images/polular-3-100x100.jpg" alt=""></div>
+                    <div class="ml-120 min-h-100x">
+                        <h5><b>Bitcoin Billionares Hidding in Plain Sight</b></h5>
+                        <h6 class="color-lite-black pt-10">by <span class="color-black"><b>Danile Palmer,</b></span> Jan 25, 2018</h6>
+                    </div>
+                </a><!-- oflow-hidden -->
+
+                <a class="oflow-hidden pos-relative mb-20 dplay-block" href="#">
+                    <div class="wh-100x abs-tlr"><img src="images/polular-4-100x100.jpg" alt=""></div>
+                    <div class="ml-120 min-h-100x">
+                        <h5><b>Bitcoin Billionares Hidding in Plain Sight</b></h5>
+                        <h6 class="color-lite-black pt-10">by <span class="color-black"><b>Danile Palmer,</b></span> Jan 25, 2018</h6>
+                    </div>
+                </a><!-- oflow-hidden -->
+
+            </div><!-- mtb-50 -->
+            @*<div class="mtb-50 pos-relative">
+                    <img src="images/banner-1-600x450.jpg" alt="">
+                    <div class="abs-tblr bg-layer-7 text-center color-white">
+                        <div class="dplay-tbl">
+                            <div class="dplay-tbl-cell">
+                                <h4><b>Available for mobile & desktop</b></h4>
+                                <a class="mt-15 color-primary link-brdr-btm-primary" href="#"><b>Download for free</b></a>
+                            </div><!-- dplay-tbl-cell -->
+                        </div><!-- dplay-tbl -->
+                    </div><!-- abs-tblr -->
+                </div><!-- mtb-50 -->*@
+
+            <div class="mtb-50 mb-md-0">
+                <h4 class="p-title"><b>NEWSLETTER</b></h4>
+                <p class="mb-20">
+                    Subscribe to our newsletter to get notification about new updates,
+                    information, discount, etc..
+                </p>
+                <form class="nwsltr-primary-1">
+                    <input type="text" placeholder="Your email" />
+                    <button type="submit"><i class="ion-ios-paperplane"></i></button>
+                </form>
+            </div><!-- mtb-50 -->
+
+        </div><!--  pl-20 -->
+    </div><!-- col-md-3 -->
+
 </div>
+
+
+
+@section page_header {
+    <div class="container">
+        <div class="h-600x h-sm-auto">
+            <div class="h-2-3 h-sm-auto oflow-hidden">
+
+                <div class="pb-5 pr-5 pr-sm-0 float-left float-sm-none w-2-3 w-sm-100 h-100 h-sm-300x">
+                    <a class="pos-relative h-100 dplay-block" href="#">
+
+                        <div class="img-bg bg-1 bg-grad-layer-6" style="background-image: url(@topHot.Skip(0).Take(1).First().CoverImage)"></div>
+
+                        <div class="abs-blr color-white p-20 bg-sm-color-7">
+                            <h3 class="mb-15 mb-sm-5 font-13"><b>@topHot.Skip(0).Take(1).First().Title</b></h3>
+                            <ul class="list-li-mr-20">
+                                <li>by <span class="color-primary"><b>@topHot.Skip(0).Take(1).First().CreatingUser.FullName</b></span> @DateTimeHelper.FormatDate(topHot.Skip(0).Take(1).First().CreatedAt.Value)</li>
+                                <li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>@topHot.Skip(0).Take(1).First().ViewCount</li>
+                                @*<li><i class="color-primary mr-5 font-12 ion-chatbubbles"></i>30</li>*@
+                            </ul>
+                        </div><!--abs-blr -->
+                    </a><!-- pos-relative -->
+                </div><!-- w-1-3 -->
+
+                <div class="float-left float-sm-none w-1-3 w-sm-100 h-100 h-sm-600x">
+
+                    @foreach (var item in @topHot.Skip(1).Take(2))
+                    {
+                        <div class="pl-5 pb-5 pl-sm-0 ptb-sm-5 pos-relative h-50">
+                            <a class="pos-relative h-100 dplay-block" href="#">
+
+                                <div class="img-bg bg-2 bg-grad-layer-6" style="background-image: url(@item.CoverImage)"></div>
+
+                                <div class="abs-blr color-white p-20 bg-sm-color-7">
+                                    <h4 class="mb-10 mb-sm-5 font-11"><b>@item.Title</b></h4>
+                                    <ul class="list-li-mr-20">
+                                        <li>@DateTimeHelper.FormatDate(topHot.Skip(0).Take(1).First().CreatedAt.Value)</li>
+                                        <li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>@item.ViewCount</li>
+                                        <li>@*<i class="color-primary mr-5 font-12 ion-chatbubbles"></i>30*@</li>
+                                    </ul>
+                                </div><!--abs-blr -->
+                            </a><!-- pos-relative -->
+                        </div>
+                    }
+
+                </div><!-- float-left -->
+
+            </div><!-- h-2-3 -->
+
+            <div class="h-1-3 oflow-hidden">
+
+                @foreach (var item in topHot.Skip(3).Take(3))
+                {
+                    <div class="pr-5 pr-sm-0 pt-5 float-left float-sm-none pos-relative w-1-3 w-sm-100 h-100 h-sm-300x">
+                        <a class="pos-relative h-100 dplay-block" href="#">
+
+                            <div class="img-bg bg-4 bg-grad-layer-6" style="background-image: url(@item.CoverImage)"></div>
+
+                            <div class="abs-blr color-white p-20 bg-sm-color-7">
+                                <h4 class="mb-10 mb-sm-5 font-11"><b>@item.Title</b></h4>
+                                <ul class="list-li-mr-20">
+                                    <li>Jan 25, 2018</li>
+                                    <li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>@item.ViewCount</li>
+                                    @*<li><i class="color-primary mr-5 font-12 ion-chatbubbles"></i>30</li>*@
+                                </ul>
+                            </div><!--abs-blr -->
+                        </a><!-- pos-relative -->
+                    </div>
+                }<!-- w-1-3 -->
+
+            </div><!-- h-2-3 -->
+        </div><!-- h-100vh -->
+    </div><!-- container -->
+}
+
+@section scripts {
+    @*<script src="~/Assets/imakewebthings-waypoints-34d9f6d/lib/jquery.waypoints.min.js"></script>*@
+    <script>
+
+        $(function () {
+            $('#js-view-more').on('click', function () {
+                LoadMore();
+            });
+
+            function LoadMore() {
+                var button = $('#js-view-more');
+                var nextPage = button.attr('data-next-page');
+                //point to next page
+                button.attr('data-next-page', parseInt(button.attr('data-next-page')) + 1);
+
+                ToggleButton(button, 'loading');
+                $.ajax({
+                    url: '/Home/Recent?page=' + nextPage + "&pageSize=" + button.attr('data-page-size'),
+                    type: 'get',
+                    success: function (res) {
+                        if (res.status != 200) return;
+                        var recentPosts = res.data;
+                        //render html
+                        for (const post of recentPosts) {
+                            var newPost = `
+                                <div class="col-sm-6 animated fadeIn">
+                                    <img src="`+ post.CoverImage + `" alt="">
+                                    <h4 class="pt-20 font-11"><a href="#"><b>`+ post.Title + `</b></a></h4>
+                                    <ul class="list-li-mr-20 pt-10 mb-30">
+                                        <li class="color-lite-black">
+                                            by <a href="#" class="color-black"><b>`+ post.Author + `,</b></a>
+                                            `+ post.Time + `
+                                        </li>
+                                        <li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>`+ post.ViewCount + `</li>
+                                        @*<li><i class="color-primary mr-5 font-12 ion-chatbubbles"></i>47</li>*@
+                                    </ul>
+                                </div>
+                            `;
+
+                            $('#js-recent').append(newPost);
+                        }
+
+                        if (!res.isAnyLeft)
+                            ToggleButton(button, 'hide');
+                        else
+                            ToggleButton(button, 'loaded');
+                    }
+                });
+
+
+            }
+
+            function ToggleButton(button, type) {
+                switch (type) {
+                    case 'loading':
+                        button.html('<i class="spinner fa fa-spin"></i>');
+                        break;
+                    case 'loaded':
+                        button.html('<b>XEM THÊM</b>');
+                        break;
+                    case 'hide':
+                        button.remove();
+                        break;
+                }
+            }
+        });
+    </script>
+}

@@ -50,6 +50,7 @@
         public DateTime? UpdatedAt { get; set; }
 
         [StringLength(128)]
+        [Display(Name = "Người sửa")]
         public string UpdatedBy { get; set; }
 
         public int? CategoryId { get; set; }

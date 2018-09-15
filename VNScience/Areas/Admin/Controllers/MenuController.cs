@@ -45,7 +45,7 @@ namespace VNScience.Areas.Admin.Controllers
             {
                 model.Add(Mapper.Map<MenuViewModel>(item));
             }
-
+            
             return View(model);
         }
 

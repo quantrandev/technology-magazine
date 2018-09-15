@@ -1,4 +1,7 @@
-﻿@model IEnumerable<VNScience.ViewModels.PostViewModel>
+﻿@model PagedList.IPagedList<VNScience.ViewModels.PostViewModel>
+@using PagedList.Mvc;
+@using PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @using VNScience.Common
 
 @{
@@ -30,7 +33,7 @@
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <input type="text" name="searchString" class="form-control" placeholder="Nhập tiêu đề, nội dung, tác giả, ..."/>
+                                            <input type="text" name="searchString" class="form-control" placeholder="Nhập tiêu đề, nội dung, tác giả, ..." />
                                         </div>
                                         <div class="col-md-4">
                                             <button type="submit" class="btn btn-info">Tìm kiếm</button>
@@ -43,34 +46,34 @@
                     <table class="table table-bordered table-striped">
                         <tr>
                             <th style="width: 80px">
-                                @Html.DisplayNameFor(model => model.CoverImage)
+                                Ảnh bìa
                             </th>
                             <th style="width: 300px;">
-                                @Html.DisplayNameFor(model => model.Title)
+                                Tiêu đề
                             </th>
                             <th style="width: 80px">
-                                @Html.DisplayNameFor(model => model.ViewCount)
+                                Lượt xem
                             </th>
                             <th style="width: 80px;">
-                                @Html.DisplayNameFor(model => model.IsApproved)
+                                Duyệt đăng
                             </th>
                             <th style="width: 80px;">
-                                @Html.DisplayNameFor(model => model.IsRequestedDelete)
+                                Yêu cầu xóa
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.PostCategory)
+                                Danh mục
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.CreatedAt)
+                                Ngày tạo
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.CreatedBy)
+                                Người tạo
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.UpdatedAt)
+                                Ngày sửa
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.UpdatedBy)
+                                Người sửa
                             </th>
                             <th></th>
                         </tr>
@@ -133,12 +136,17 @@
                         }
 
                     </table>
+                    @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, searchString = ViewBag.CurrentFilter }), PagedListRenderOptions.TwitterBootstrapPagerAligned)
                 </div>
             </div>
         </div>
         <!-- /form input mask -->
     </div>
 </div>
+
+
+
 @section scripts {
     <script>
         var deleteType = {

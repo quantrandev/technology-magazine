@@ -16,6 +16,13 @@ namespace VNScience.Areas.Admin.DataAccess
         }
 
         //GET
+        public List<PostCategory> GetAll()
+        {
+            return _db.PostCategories
+                .OrderBy(e=>e.DisplayOrder)
+                .ToList();
+        }
+
         public List<PostCategory> GetManyRequestsToDelete()
         {
             return _db.PostCategories

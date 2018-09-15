@@ -88,9 +88,12 @@
                                     }
                                 </td>
                                 <td class="js-cell-request-delete">
-                                    @if (item.IsRequestedDelete.Value)
+                                    @if (item.IsRequestedDelete.HasValue)
                                     {
-                                        <span class="label label-danger">Chờ duyệt</span>
+                                        if (item.IsRequestedDelete.Value)
+                                        {
+                                            <span class="label label-danger">Chờ duyệt</span>
+                                        }
                                     }
                                 </td>
                                 <td>

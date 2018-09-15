@@ -13,6 +13,8 @@ namespace VNScience.Areas.Admin.DataAccess
     public class MenuDAO
     {
         ApplicationDbContext _db;
+        private string e;
+
         public MenuDAO(ApplicationDbContext db)
         {
             this._db = db;
@@ -56,6 +58,22 @@ namespace VNScience.Areas.Admin.DataAccess
         {
             return _db.Menus
                 .Where(e => e.Id != id)
+                .ToList();
+        }
+
+        public List<Menu> GetTopMenus()
+        {
+            return _db.Menus
+                .Include(e => e.MenuType)
+                .Where(e => e.MenuType.Name == "Menu trên")
+                .ToList();
+        }
+
+        public List<Menu> GetBottomMenus()
+        {
+            return _db.Menus
+                .Include(e => e.MenuType)
+                .Where(e => e.MenuType.Name == "Menu dưới")
                 .ToList();
         }
 

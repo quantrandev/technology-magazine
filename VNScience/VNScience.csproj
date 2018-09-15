@@ -60,6 +60,12 @@
       <HintPath>..\packages\LinqKit.1.1.15\lib\net45\LinqKit.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -253,8 +259,12 @@
     <Compile Include="Common\Helpers.cs" />
     <Compile Include="Common\MapperConfig.cs" />
     <Compile Include="Common\RoleName.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="DataAccess\ClientPostCategoryDAO.cs" />
+    <Compile Include="DataAccess\ClientPostDAO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -3859,6 +3869,63 @@
     <Content Include="Areas\Admin\Assets\vendors\validator\index.html" />
     <Content Include="Areas\Admin\Assets\vendors\validator\multifield.js" />
     <Content Include="Areas\Admin\Assets\vendors\validator\validator.js" />
+    <Content Include="Assets\animate.css\animate.css" />
+    <Content Include="Assets\animate.css\animate.min.css" />
+    <Content Include="Assets\animate.css\gulpfile.js" />
+    <Content Include="Assets\common\scripts.js" />
+    <Content Include="Assets\common\styles.css" />
+    <Content Include="Assets\fonts\ionicons.css" />
+    <Content Include="Assets\fonts\ionicons.svg" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\gulpfile.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\lib\jquery.waypoints.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\lib\jquery.waypoints.min.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\lib\noframework.waypoints.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\lib\noframework.waypoints.min.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\lib\shortcuts\infinite.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\lib\shortcuts\infinite.min.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\lib\shortcuts\inview.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\lib\shortcuts\inview.min.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\lib\shortcuts\sticky.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\lib\shortcuts\sticky.min.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\lib\waypoints.debug.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\lib\zepto.waypoints.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\lib\zepto.waypoints.min.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\licenses.txt" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\src\adapters\jquery-zepto-fn-extension.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\src\adapters\jquery.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\src\adapters\noframework.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\src\adapters\zepto.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\src\context.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\src\debug.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\src\group.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\src\shortcuts\infinite.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\src\shortcuts\inview.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\src\shortcuts\sticky.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\src\waypoint.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\adapter-fn-spec.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\context-spec.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\debug-spec.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\fixtures\infinite.html" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\fixtures\standard.html" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\fixtures\sticky.html" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\group-spec.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\infinite-spec.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\inview-spec.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\lib\coffee-script.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\lib\jasmine-html.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\lib\jasmine-jquery.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\lib\jasmine.css" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\lib\jasmine.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\lib\require.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\lib\testloader.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\settings.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\sticky-spec.js" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\test\waypoint-spec.js" />
+    <Content Include="Assets\plugin-frameworks\bootstrap.css" />
+    <Content Include="Assets\plugin-frameworks\bootstrap.js" />
+    <Content Include="Assets\plugin-frameworks\jquery-3.2.1.min.js" />
+    <Content Include="Assets\plugin-frameworks\tether.min.js" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="ApplicationInsights.config">
@@ -4787,7 +4854,26 @@
     <Content Include="Areas\Admin\Views\About\Create.cshtml" />
     <Content Include="Areas\Admin\Views\About\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SystemInfo\Index.cshtml" />
+    <Content Include="Assets\fonts\ionicons.eot" />
+    <Content Include="Assets\fonts\ionicons.ttf" />
+    <Content Include="Assets\fonts\ionicons.woff" />
+    <Content Include="Assets\animate.css\.bower.json" />
+    <Content Include="Assets\animate.css\animate-config.json" />
+    <Content Include="Assets\animate.css\bower.json" />
+    <Content Include="Assets\animate.css\package.json" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\.eslintrc" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\.gitignore" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\.travis.yml" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\bower.json" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\CHANGELOG.md" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\CONTRIBUTING.md" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\package.json" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\README.md" />
+    <Content Include="Assets\imakewebthings-waypoints-34d9f6d\testem.json" />
     <None Include="packages.config" />
+    <Content Include="Views\Common\Header.cshtml" />
+    <Content Include="Views\Common\Footer.cshtml" />
+    <Content Include="Views\Post\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Areas\Admin\Assets\vendors\bootstrap-multiselect-master\types\bootstrap-multiselect\bootstrap-multiselect-tests.ts" />

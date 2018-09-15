@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNet.Identity;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -29,7 +30,7 @@ namespace VNScience.Areas.Admin.Controllers
 
         // GET: Admin/Post
         [Authorize(Roles = RoleName.PostMod)]
-        public ActionResult Index(string searchString = null)
+        public ActionResult Index(string searchString = null, int page = 1, int pageSize = 10)
         {
             List<Post> posts = new List<Post>();
             var model = new List<PostViewModel>();
@@ -88,7 +89,8 @@ namespace VNScience.Areas.Admin.Controllers
                 model = model.OrderBy(e => e.SearchMatchingType).ToList();
             }
 
-            return View(model);
+            ViewBag.CurrentFilter = searchString;
+            return View(model.ToPagedList(page, pageSize));
         }
 
         [HttpGet]

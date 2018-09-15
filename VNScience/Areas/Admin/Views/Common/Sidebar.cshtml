@@ -4,7 +4,7 @@
 @using VNScience.Common;
 <div class="left_col scroll-view">
     <div class="navbar nav_title" style="border: 0;">
-        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+        <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>@ViewBag.Brand</span></a>
     </div>
     <div class="clearfix"></div>
     <!-- menu profile quick info -->
@@ -118,7 +118,7 @@
                         <a><i class="fa fa-envelope-o"></i> LIÊN HỆ</a>
                     </li>
                     <li class="system">
-                        <a><i class="fa fa-cogs"></i> HỆ THỐNG</a>
+                        <a href="/Admin/SystemInfo/"><i class="fa fa-cogs"></i> HỆ THỐNG</a>
                     </li>
                     <li class="system">
                         <a href="/Admin/About/"><i class="fa fa-file-text-o"></i> GIỚI THIỆU</a>

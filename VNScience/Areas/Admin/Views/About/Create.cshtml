@@ -18,7 +18,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.IsDisplayed, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        <label>@Html.RadioButtonFor(model => model.IsDisplayed, true, new { htmlAttributes = new { @class = "form-control" } }) Hiển thị</label>
+                        <label>@Html.RadioButtonFor(model => model.IsDisplayed, true, new { @checked = "checked" }) Hiển thị</label>
                         <label>@Html.RadioButtonFor(model => model.IsDisplayed, false, new { htmlAttributes = new { @class = "form-control" } }) Không hiển thị</label>
                         @Html.ValidationMessageFor(model => model.IsDisplayed, "", new { @class = "text-danger" })
                     </div>

@@ -47,6 +47,7 @@ namespace VNScience.Areas.Admin.Controllers
             {
                 posts = postDAO.Search(searchString);
                 //process for best visualize data
+                var searchParts = searchString.Split(' ');
                 foreach (var post in posts)
                 {
                     var postToDisplay = Mapper.Map<PostViewModel>(post);
@@ -63,6 +64,18 @@ namespace VNScience.Areas.Admin.Controllers
                     )
                     {
                         postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatch;
+                    }
+                    else if ((postToDisplay.Title != null ? postToDisplay.Title.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                    || (postToDisplay.Summary != null ? postToDisplay.Summary.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                    || (postToDisplay.Content != null ? postToDisplay.Content.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                    || postToDisplay.CreatingUser.FullName.Split(' ').Intersect(searchParts).Count() == searchParts.Length
+                    || (postToDisplay.UpdatingUser != null ? postToDisplay.UpdatingUser.FullName.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                    || (postToDisplay.References != null ? postToDisplay.References.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                    || postToDisplay.PostCategory.Name.Split(' ').Intersect(searchParts).Count() == searchParts.Length
+                    || (postToDisplay.Tags != null ? postToDisplay.Tags.Any(e => e.Id.Split('-').Intersect(searchParts).Count() == searchParts.Length) : false)
+                    || (postToDisplay.Tags != null ? postToDisplay.Tags.Any(e => e.Name.Split(' ').Intersect(searchParts).Count() == searchParts.Length) : false))
+                    {
+                        postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatchButScrambled;
                     }
                     else
                     {

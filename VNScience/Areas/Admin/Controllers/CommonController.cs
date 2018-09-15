@@ -16,11 +16,13 @@ namespace VNScience.Areas.Admin.Controllers
         ApplicationDbContext db = new ApplicationDbContext();
         PostDAO postDAO;
         PostCategoryDAO postCategoryDAO;
+        SystemInfoDAO systemInfoDAO;
 
         public CommonController()
         {
             postDAO = new PostDAO(db);
             postCategoryDAO = new PostCategoryDAO(db);
+            systemInfoDAO = new SystemInfoDAO(db);
         }
 
         [ChildActionOnly]
@@ -29,6 +31,7 @@ namespace VNScience.Areas.Admin.Controllers
             ViewBag.PostRequestsToApproveCount = postDAO.GetRequestsToApproveCount();
             ViewBag.PostRequestsToDeleteCount = postDAO.GetRequestsToDeleteCount();
             ViewBag.PostCategoryRequestsToDeleteCount = postCategoryDAO.GetRequestsToDeleteCount();
+            ViewBag.Brand = systemInfoDAO.GetBrand();
             return PartialView("Sidebar");
         }
 

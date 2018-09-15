@@ -55,15 +55,15 @@ namespace VNScience.Areas.Admin.DataAccess
         public bool Update(About about)
         {
             bool isSuccess = true;
-            //try
-            //{
+            try
+            {
                 _db.Entry(about).State = EntityState.Modified;
                 _db.SaveChanges();
-            //}
-            //catch (Exception e)
-            //{
-            //    isSuccess = false;
-            //}
+            }
+            catch (Exception e)
+            {
+                isSuccess = false;
+            }
 
             return isSuccess;
         }

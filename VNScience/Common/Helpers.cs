@@ -14,14 +14,7 @@ namespace VNScience.Common
         public string Message;
         public MessageType Type;
     }
-
-    public enum MessageType
-    {
-        Success,
-        Error,
-        Warning,
-        Info
-    }
+    
     public class Notification
     {
         public void Success(string message, HttpSessionStateBase Session, string title = "Thông báo")
@@ -249,6 +242,15 @@ namespace VNScience.Common
     public enum SearchMatchingType
     {
         FullyMatch = 1,
-        PartialMatch = 2
+        FullyMatchButScrambled = 2,
+        PartialMatch = 3
+    }
+
+    public enum MessageType
+    {
+        Success,
+        Error,
+        Warning,
+        Info
     }
 }

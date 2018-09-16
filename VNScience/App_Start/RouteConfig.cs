@@ -14,9 +14,23 @@ namespace VNScience
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "DetailPost",
+                url: "tin-tuc/{metatitle}-{id}",
+                defaults: new { controller = "Post", action = "Detail" },
+                namespaces: new[] { "VNScience.Controllers" }
+            );
+
+            routes.MapRoute(
                 name: "PostCategory",
                 url: "danh-muc-tin/{metatitle}-{categoryId}",
                 defaults: new { controller = "Post", action = "Index"},
+                namespaces: new[] { "VNScience.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "SearchPosts",
+                url: "tim-kiem/",
+                defaults: new { controller = "Post", action = "Search" },
                 namespaces: new[] { "VNScience.Controllers" }
             );
 

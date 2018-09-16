@@ -1,5 +1,5 @@
 ﻿@model VNScience.Models.Core.Menu
-
+@using VNScience.Models.Core
 @using VNScience.Common
 
 @{
@@ -53,10 +53,18 @@
                         @if (ViewBag.OtherMenus.Count > 0)
                         {
                             <div class="form-group">
-                                @foreach (var menu in ViewBag.OtherMenus)
-                                {
-                                    <span class="label label-info m-r-5">@menu.Title (@menu.DisplayOrder)</span>
-                                }
+                                <table class="table table-bordered" style="margin-bottom: 0">
+                                    @foreach (var menuType in (IEnumerable<IGrouping<MenuType, Menu>>)ViewBag.OtherMenus)
+                                    {
+                                        <tr>
+                                            <td>@menuType.Key.Name</td>
+                                            @foreach (var menu in menuType)
+                                            {
+                                                <td>@menu.Title (@menu.DisplayOrder)</td>
+                                            }
+                                        </tr>
+                                    }
+                                </table>
                             </div>
                         }
                         @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control" } })

@@ -10,6 +10,7 @@ using VNScience.Common;
 using VNScience.Models;
 using VNScience.Models.Core;
 using VNScience.ViewModels;
+using System.Data.Entity;
 
 namespace VNScience.Areas.Admin.Controllers
 {
@@ -45,7 +46,7 @@ namespace VNScience.Areas.Admin.Controllers
             {
                 model.Add(Mapper.Map<MenuViewModel>(item));
             }
-            
+
             return View(model);
         }
 
@@ -66,7 +67,7 @@ namespace VNScience.Areas.Admin.Controllers
             }
 
             //other menu with displayOrder
-            var otherMenus = menuDAO.GetAll();
+            var otherMenus = db.Menus.Include(e => e.MenuType).GroupBy(e => e.MenuType).ToList();
 
             ViewBag.MenuTypeSelectList = menuTypeSelectList;
             ViewBag.OtherMenus = otherMenus;
@@ -116,7 +117,11 @@ namespace VNScience.Areas.Admin.Controllers
             }
 
             //other menu with displayOrder
-            var otherMenus = menuDAO.GetAllExcept(id);
+            var otherMenus = db.Menus
+                .Include(e => e.MenuType)
+                .Where(e => e.Id != id)
+                .GroupBy(e => e.MenuType)
+                .ToList();
 
             ViewBag.MenuTypeSelectList = menuTypeSelectList;
             ViewBag.OtherMenus = otherMenus;

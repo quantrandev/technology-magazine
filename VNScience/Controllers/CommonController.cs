@@ -41,7 +41,7 @@ namespace VNScience.Controllers
 
         public PartialViewResult RightCol()
         {
-            return PartialView();
+            return PartialView("RightCol");
         }
     }
 }

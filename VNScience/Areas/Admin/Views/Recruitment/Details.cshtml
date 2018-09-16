@@ -1,0 +1,132 @@
+﻿@model VNScience.Models.Core.Recruitment
+@using VNScience.Common
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h4>Chi tiết tin tuyển dụng</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MetaTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MetaTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Summary)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.Summary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobDescription)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.JobDescription)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobRequirements)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.JobRequirements)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobWelfare)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.JobWelfare)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobAdditionalInfo)
+        </dt>
+
+        <dd>
+            @Html.Raw(Model.JobAdditionalInfo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobWorkPlace)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobWorkPlace)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </dt>
+
+        <dd>
+            @DateTimeHelper.FormatDate(Model.CreatedAt.Value)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatingUser)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatingUser.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedAt)
+        </dt>
+
+        <dd>
+            @if (Model.UpdatedAt.HasValue)
+            {
+                @(DateTimeHelper.FormatDate(Model.UpdatedAt.Value))
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatingUser)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatingUser.FullName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Quay về danh sách", "Index")
+</p>

@@ -23,15 +23,15 @@
     </div><!-- bg-191 -->
 
     <div class="container">
-        <a class="logo" href="index.html"><img src="@ViewBag.Logo" alt="Logo"></a>
+        <a class="logo" href="/"><img src="@ViewBag.Logo" alt="Logo"></a>
 
         <a class="right-area src-btn" href="#">
             <i class="active src-icn ion-search"></i>
             <i class="close-icn ion-close"></i>
         </a>
         <div class="src-form">
-            <form>
-                <input type="text" placeholder="Search here">
+            <form action="/Post/Search/" method="get">
+                <input type="text" name="searchString" placeholder="Nhập tiêu đề, danh mục, tag, ...">
                 <button type="submit"><i class="ion-search"></i></a></button>
             </form>
         </div><!-- src-form -->

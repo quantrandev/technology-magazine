@@ -1,16 +1,14 @@
 ﻿@model IEnumerable<VNScience.ViewModels.PostViewModel>
-@using VNScience.Models.Core
 @using VNScience.Common
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var category = (PostCategory)ViewBag.Category;
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="col-md-12 col-lg-8">
 
-    <h4 class="p-title"><b>@category.Name</b></h4>
+    <h4 class="p-title">Kết quả tìm kiếm cho <b>"@ViewBag.SearchString"</b></h4>
     <div class="row" id="js-posts-container">
 
         @foreach (var post in Model)
@@ -31,7 +29,10 @@
 
     </div><!-- row -->
 
-    <a class="dplay-block btn-brdr-primary mt-20 mb-md-50" href="javascript:void(0)" data-category-id="@category.Id" data-next-page="2" data-page-size="8" id="js-view-more"><b>XEM THÊM</b></a>
+    @if (ViewBag.IsAnyLeft)
+    {
+        <a class="dplay-block btn-brdr-primary mt-20 mb-md-50" href="javascript:void(0)" data-search-string="@ViewBag.SearchString" data-next-page="2" data-page-size="8" id="js-view-more"><b>XEM THÊM</b></a>
+    }
 </div><!-- col-md-9 -->
 
 @section page_header {
@@ -39,7 +40,7 @@
         <div class="mb-30 brdr-ash-1 opacty-5"></div>
         <div class="container">
             <a class="mt-10" href="index.html"><i class="mr-5 ion-ios-home"></i>Trang chủ<i class="mlr-10 ion-chevron-right"></i></a>
-            <a class="mt-10 color-ash" href="archive-page.html">@category.Name</a>
+            <a class="mt-10 color-ash" href="archive-page.html">Kết quả tìm kiếm cho "@ViewBag.SearchString"</a>
         </div><!-- container -->
     </section>
 }
@@ -61,7 +62,7 @@
 
                 ToggleButton(button, 'loading');
                 $.ajax({
-                    url: '/Post/CategoryPaging?categoryId='+button.attr('data-category-id')+'&page=' + nextPage + "&pageSize=" + button.attr('data-page-size'),
+                    url: '/Post/SearchPaging?searchString='+button.attr('data-search-string')+'&page=' + nextPage + "&pageSize=" + button.attr('data-page-size'),
                     type: 'get',
                     success: function (res) {
                         if (res.status != 200) return;
@@ -112,3 +113,5 @@
         });
     </script>
 }
+
+

@@ -116,8 +116,19 @@ namespace VNScience.Areas.Admin.DataAccess
         {
             return _db.Posts.Where(e => e.IsRequestedDelete.Value).Count();
         }
+        public int GetPostsCount()
+        {
+            return _db.Posts.Count();
+        }
+
+        public int GetPostCountByUser(string userId)
+        {
+            return _db.Posts.Where(e => e.CreatedBy == userId).Count();
+        }
+
         //END GET
 
+        
 
         #region search
 
@@ -149,7 +160,7 @@ namespace VNScience.Areas.Admin.DataAccess
             //partial match
             foreach (var item in searchTerms)
             {
-                if(item.Length != 1)
+                if (item.Length != 1)
                 {
                     predicate = predicate.Or(e => e.Title.Contains(item));
                     predicate = predicate.Or(e => e.Summary.Contains(item));

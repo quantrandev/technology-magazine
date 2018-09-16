@@ -17,20 +17,39 @@
 
     <link href="~/Assets/animate.css/animate.min.css" rel="stylesheet" />
     <link href="/Assets/common/styles.css" rel="stylesheet">
+    <style>
+        .content-container > p {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
 
+        .PhotoCMS_Caption {
+            text-align: center;
+        }
+
+        .VCSortableInPreviewMode a {
+            display: inline-block;
+            margin: auto;
+        }
+    </style>
 </head>
 <body>
 
     @{
         Html.RenderAction("Header", "Common", new { area = "" });
     }
-
+    
     @RenderSection("page_header", false)
-
 
     <section>
         <div class="container">
-            @RenderBody()<!-- row -->
+            <div class="row">
+                @RenderBody()<!-- row -->
+
+                @{
+                    Html.RenderAction("RightCol", "Common", new { area = "" });
+                }
+            </div>
         </div><!-- container -->
     </section>
 

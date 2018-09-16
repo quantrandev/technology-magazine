@@ -45,5 +45,8 @@ namespace VNScience.Models.Core
 
         [StringLength(128)]
         public string UpdatedBy { get; set; }
+
+        public ApplicationUser CreatingUser { get; set; }
+        public ApplicationUser UpdatingUser { get; set; }
     }
 }

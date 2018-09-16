@@ -22,6 +22,8 @@ namespace VNScience.Models
         public virtual ICollection<Menu> UpdatedMenus { get; set; }
         public virtual ICollection<About> CreatedAbouts { get; set; }
         public virtual ICollection<About> UpdatedAbouts { get; set; }
+        public virtual ICollection<Recruitment> CreatedRecruitments { get; set; }
+        public virtual ICollection<Recruitment> UpdatedRecruitments { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -187,7 +189,7 @@ namespace VNScience.Models
                 .WithMany(e => e.CreatedPosts)
                 .HasForeignKey(e => e.CreatedBy)
                 .WillCascadeOnDelete(false);
-            
+
             //post vs postcategory
             modelBuilder.Entity<Post>()
                 .HasRequired(e => e.PostCategory)
@@ -223,6 +225,19 @@ namespace VNScience.Models
             modelBuilder.Entity<About>()
                 .HasOptional(e => e.CreatingUser)
                 .WithMany(e => e.CreatedAbouts)
+                .HasForeignKey(e => e.CreatedBy)
+                .WillCascadeOnDelete(false);
+
+            //user vs recruitment
+            modelBuilder.Entity<Recruitment>()
+                 .HasOptional(e => e.UpdatingUser)
+                 .WithMany(e => e.UpdatedRecruitments)
+                 .HasForeignKey(e => e.UpdatedBy)
+                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Recruitment>()
+                .HasOptional(e => e.CreatingUser)
+                .WithMany(e => e.CreatedRecruitments)
                 .HasForeignKey(e => e.CreatedBy)
                 .WillCascadeOnDelete(false);
         }

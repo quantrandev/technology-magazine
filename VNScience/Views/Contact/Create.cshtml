@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_LayoutWithoutAds.cshtml";
+}
+
+
+<div class="col-sm-12 col-md-8">
+    <h3><b>LIÊN HỆ VỚI CHÚNG TÔI</b></h3>
+    <p class="mb-30 mr-100 mr-sm-0">
+        We’d love to hear from you – please get in touch for comments, requests,
+        advertising partnerships or job inquiries.
+    </p>
+    <form class="form-block form-bold form-mb-20 form-h-35 form-brdr-b-grey pr-50 pr-sm-0" action="/Contact/Create" method="post">
+        <div class="row">
+
+            <div class="col-sm-6">
+                <p class="color-ash">Full Name*</p>
+                <div class="pos-relative">
+                    <input class="pr-20" type="text" name="FullName">
+                    @*<i class="abs-tbr lh-35 font-13 color-green ion-android-done"></i>*@
+                </div><!-- pos-relative -->
+            </div><!-- col-sm-6 -->
+
+            <div class="col-sm-6">
+                <p class="color-ash">Email*</p>
+                <div class="pos-relative">
+                    <input class="pr-20" type="email" name="Email">
+                    <i class="dplay-none abs-tbr lh-35 font-13 color-green ion-android-done"></i>
+                </div><!-- pos-relative -->
+            </div><!-- col-sm-6 -->
+
+            <div class="col-sm-6">
+                <p class="color-ash">Title*</p>
+                <div class="pos-relative">
+                    <input class="pr-20" type="text" name="Title">
+                    <i class="dplay-none abs-tbr lh-35 font-13 color-green ion-android-done"></i>
+                </div><!-- pos-relative -->
+            </div><!-- col-sm-6 -->
+
+            <div class="col-sm-12">
+                <div class="pos-relative pr-80">
+                    <p class="color-ash">Message*</p>
+                    <h4>@*<b>Nội dung liên hệ</b>*@</h4>
+                    <textarea class="mb-0" name="Message"></textarea>
+                    <button class="abs-br font-20 plr-15 btn-fill-primary" type="submit"><i class="ion-ios-paperplane"></i></button>
+                </div><!-- pos-relative -->
+            </div><!-- col-sm-6 -->
+
+        </div><!-- row -->
+    </form>
+</div><!-- col-md-6 -->
+
+<div class="col-sm-12 col-md-4">
+    <h3 class="mb-20 mt-sm-50"><b>THÔNG TIN LIÊN HỆ</b></h3>
+
+    @Html.Raw(ViewBag.ContactInfo)
+</div><!-- col-md-6 -->
+
+@section page_header {
+    <section class="ptb-0">
+        <div class="mb-30 brdr-ash-1 opacty-5"></div>
+        <div class="container">
+            <a class="mt-10" href="index.html"><i class="mr-5 ion-ios-home"></i>Trang chủ<i class="mlr-10 ion-chevron-right"></i></a>
+            <a class="color-ash mt-10" href="06_contact-us.html">Liên hệ</a>
+        </div><!-- container -->
+    </section>
+}

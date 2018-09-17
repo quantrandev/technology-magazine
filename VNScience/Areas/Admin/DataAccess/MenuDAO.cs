@@ -13,8 +13,6 @@ namespace VNScience.Areas.Admin.DataAccess
     public class MenuDAO
     {
         ApplicationDbContext _db;
-        private string e;
-
         public MenuDAO(ApplicationDbContext db)
         {
             this._db = db;

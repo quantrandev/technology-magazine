@@ -31,6 +31,11 @@ namespace VNScience.Areas.Admin.DataAccess
             return _db.SystemInfoes.Find("recruitmentInfo").Content;
         }
 
+        public string GetContactInfo()
+        {
+            return _db.SystemInfoes.Find("contactInfo").Content;
+        }
+
         //Update
         public bool UpdateBrand(string newBrand)
         {
@@ -43,7 +48,7 @@ namespace VNScience.Areas.Admin.DataAccess
                 _db.Entry(brand).State = EntityState.Modified;
                 _db.SaveChanges();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 isSuccess = false;
             }
@@ -77,6 +82,24 @@ namespace VNScience.Areas.Admin.DataAccess
             try
             {
                 _db.Entry(recruitmentInfo).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                isSuccess = false;
+            }
+
+            return isSuccess;
+        }
+        public bool UpdateContactInfo(string newContactInfo)
+        {
+            bool isSuccess = true;
+            var contactInfo = _db.SystemInfoes.Find("contactInfo");
+            contactInfo.Content = newContactInfo;
+
+            try
+            {
+                _db.Entry(contactInfo).State = EntityState.Modified;
                 _db.SaveChanges();
             }
             catch (Exception e)

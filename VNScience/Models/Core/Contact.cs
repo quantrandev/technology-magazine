@@ -24,5 +24,7 @@ namespace VNScience.Models.Core
         public string Message { get; set; }
 
         public DateTime? CreatedAt { get; set; }
+
+        public bool IsSeen { get; set; }
     }
 }

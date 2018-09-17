@@ -1,0 +1,193 @@
+﻿@model IEnumerable<VNScience.Models.Core.Contact>
+@using VNScience.Common
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="">
+    <div class="row">
+        <!-- form input mask -->
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Quản lý liên hệ </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content no-padding">
+                    <div class="row">
+                        <div class="col-md-4 col-xs-12">
+                            <form action="/Admin/Contact/" method="get">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <input type="text" name="searchString" class="form-control" placeholder="Nhập tiêu đề, nội dung ..." />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="submit" class="btn btn-info">Tìm kiếm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <table class="table table-bordered">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Email)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FullName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Title)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Message)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreatedAt)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IsSeen)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr class="js-seen @{
+                                if (item.IsSeen)
+                                {
+                                    @("seen")
+                                }
+                            }" data-id="@item.Id">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.FullName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Message)
+                                </td>
+                                <td>
+                                    @DateTimeHelper.FormatDate(item.CreatedAt.Value)
+                                </td>
+                                <td class="js-is-seen">
+                                    @if (item.IsSeen)
+                                    {
+                                        <span class="label label-success">Đã xem</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="label label-danger">Chưa xem</span>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "js-delete", @data_id = item.Id })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /form input mask -->
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $('.js-delete').on('click', function (e) {
+            e.preventDefault();
+
+            var button = $(this);
+            bootbox.confirm("Xóa liên hệ này?", function (result) {
+                if (!result)
+                    return;
+
+                button.closest('tr').remove();
+                $.ajax({
+                    url: '/Admin/Contact/Delete/' + button.attr('data-id'),
+                    type: 'post',
+                    success: function (res) {
+                        if (res.status == 200)
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: 'Đã xóa thành công liên hệ',
+                                type: 'success',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                        else
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                                type: 'error',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                    },
+                    error: function (err) {
+                        new PNotify({
+                            title: 'Thông báo',
+                            text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                            type: 'error',
+                            styling: 'bootstrap3',
+                            animate: {
+                                animate: true,
+                                in_class: 'slideInDown',
+                                out_class: 'slideOutUp'
+                            },
+                            delay: 2500
+                        });
+                    }
+                });
+            })
+        });
+
+        $('.js-seen').on('click', function () {
+            var row = $(this);
+            if (row.hasClass('seen'))
+                return;
+
+            $.ajax({
+                url: '/Admin/Contact/Seen/' + row.attr('data-id'),
+                type: 'post',
+                success: function (res) {
+                    if (res.status == 200)
+                        row.find('.js-is-seen').html('<span class="label label-success">Đã xem</span>');
+                },
+                error: function (err) {
+
+                }
+            });
+        });
+    </script>
+}
+

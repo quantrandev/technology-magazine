@@ -10,5 +10,6 @@ namespace VNScience.ViewModels
         public string Brand { get; set; }
         public string Logo { get; set; }
         public string RecruitmentInfo { get; set; }
+        public string ContactInfo { get; set; }
     }
 }

@@ -91,5 +91,21 @@ namespace VNScience.Areas.Admin.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public ActionResult EditContactInfo(SystemInfoViewModel model)
+        {
+            bool isSuccess = true;
+
+            if (!ModelState.IsValid)
+                return RedirectToAction("Index");
+
+            isSuccess = systemInfoDAO.UpdateContactInfo(model.ContactInfo);
+            if (isSuccess)
+                Notification.Success("Đã cập nhật thành công thông tin liên hệ", Session);
+            else
+                Notification.Error("Có lỗi xảy ra, vui lòng thử lại sau", Session);
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -116,50 +116,13 @@ namespace VNScience.Controllers
             }
             else
             {
-                posts = postDAO.Search(searchString, page, pageSize);
-                //process for best visualize data
-                var searchParts = searchString.Split(' ');
-                foreach (var post in posts)
-                {
-                    var postToDisplay = Mapper.Map<PostViewModel>(post);
-
-                    if ((postToDisplay.Title != null ? postToDisplay.Title.Contains(searchString) : false)
-                    || (postToDisplay.Summary != null ? postToDisplay.Summary.Contains(searchString) : false)
-                    || (postToDisplay.Content != null ? postToDisplay.Content.Contains(searchString) : false)
-                    || postToDisplay.CreatingUser.FullName.Contains(searchString)
-                    || (postToDisplay.UpdatingUser != null ? postToDisplay.UpdatingUser.FullName.Contains(searchString) : false)
-                    || (postToDisplay.References != null ? postToDisplay.References.Contains(searchString) : false)
-                    || postToDisplay.PostCategory.Name.Contains(searchString)
-                    || (postToDisplay.Tags != null ? postToDisplay.Tags.Select(e => e.Id.Replace('-', ' ')).Contains(searchString) : false)
-                    || (postToDisplay.Tags != null ? postToDisplay.Tags.Select(e => e.Name).Contains(searchString) : false)
-                    )
-                    {
-                        postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatch;
-                    }
-                    else if ((postToDisplay.Title != null ? postToDisplay.Title.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
-                    || (postToDisplay.Summary != null ? postToDisplay.Summary.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
-                    || (postToDisplay.Content != null ? postToDisplay.Content.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
-                    || postToDisplay.CreatingUser.FullName.Split(' ').Intersect(searchParts).Count() == searchParts.Length
-                    || (postToDisplay.UpdatingUser != null ? postToDisplay.UpdatingUser.FullName.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
-                    || (postToDisplay.References != null ? postToDisplay.References.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
-                    || (postToDisplay.Tags != null ? postToDisplay.Tags.Any(e => e.Id.Split('-').Intersect(searchParts).Count() == searchParts.Length) : false)
-                    || (postToDisplay.Tags != null ? postToDisplay.Tags.Any(e => e.Name.Split(' ').Intersect(searchParts).Count() == searchParts.Length) : false)
-                    || postToDisplay.PostCategory.Name.Split(' ').Intersect(searchParts).Count() == searchParts.Length)
-                    {
-                        postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatchButScrambled;
-                    }
-                    else
-                    {
-                        postToDisplay.SearchMatchingType = SearchMatchingType.PartialMatch;
-                    }
-
-                    model.Add(postToDisplay);
-                }
-
-                model = model.OrderBy(e => e.SearchMatchingType).ToList();
+                model = ProcessPost(postDAO.Search(searchString), searchString)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToList();
             }
 
-            ViewBag.IsAnyLeft = postDAO.IsAnyLeftInSearch(searchString, page, pageSize);
+            ViewBag.IsAnyLeft = IsAnyLeftInSearch(searchString, page, pageSize);
             ViewBag.SearchString = searchString;
             return View(model);
         }
@@ -169,7 +132,9 @@ namespace VNScience.Controllers
         {
             var posts = postDAO.GetByCategory(categoryId, page, pageSize).Select(e => new
             {
+                Id = e.Id,
                 Title = e.Title,
+                MetaTitle = e.MetaTitle,
                 Author = e.CreatingUser.FullName,
                 ViewCount = e.ViewCount,
                 Time = DateTimeHelper.FormatDate(e.CreatedAt.Value),
@@ -183,16 +148,21 @@ namespace VNScience.Controllers
 
         public JsonResult SearchPaging(string searchString, int page, int pageSize)
         {
-            var posts = postDAO.Search(searchString, page, pageSize).Select(e => new
-            {
-                Title = e.Title,
-                Author = e.CreatingUser.FullName,
-                ViewCount = e.ViewCount,
-                Time = DateTimeHelper.FormatDate(e.CreatedAt.Value),
-                CoverImage = e.CoverImage
-            });
+            var posts = postDAO.Search(searchString)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .Select(e => new
+                {
+                    Id = e.Id,
+                    Title = e.Title,
+                    MetaTitle = e.MetaTitle,
+                    Author = e.CreatingUser.FullName,
+                    ViewCount = e.ViewCount,
+                    Time = DateTimeHelper.FormatDate(e.CreatedAt.Value),
+                    CoverImage = e.CoverImage
+                });
 
-            bool isAnyLeft = postDAO.IsAnyLeftInSearch(searchString, page, pageSize);
+            bool isAnyLeft = IsAnyLeftInSearch(searchString, page, pageSize);
 
             return Json(new { status = 200, data = posts, isAnyLeft = isAnyLeft }, JsonRequestBehavior.AllowGet);
         }
@@ -203,6 +173,67 @@ namespace VNScience.Controllers
             bool isSuccess = postDAO.IncreaseViewCount(id);
 
             return Json(new { status = 200 }, JsonRequestBehavior.AllowGet);
+        }
+
+        public bool IsAnyLeftInSearch(string searchString, int page, int pageSize)
+        {
+            var count = postDAO.Search(searchString)
+                .Skip((page - 1) * pageSize)
+                .Count();
+
+            if (count <= pageSize)
+                return false;
+            return true;
+        }
+
+        public List<PostViewModel> ProcessPost(List<Post> posts, string searchString)
+        {
+            List<PostViewModel> model = new List<PostViewModel>();
+
+            //process for best visualize data
+            var searchParts = searchString.Split(' ');
+            foreach (var post in posts)
+            {
+                var postToDisplay = Mapper.Map<PostViewModel>(post);
+
+                if ((postToDisplay.Title != null ? postToDisplay.Title.Contains(searchString) : false)
+                || (postToDisplay.Summary != null ? postToDisplay.Summary.Contains(searchString) : false)
+                || (postToDisplay.Content != null ? postToDisplay.Content.Contains(searchString) : false)
+                || postToDisplay.CreatingUser.FullName.Contains(searchString)
+                || (postToDisplay.UpdatingUser != null ? postToDisplay.UpdatingUser.FullName.Contains(searchString) : false)
+                || (postToDisplay.References != null ? postToDisplay.References.Contains(searchString) : false)
+                || postToDisplay.PostCategory.Name.Contains(searchString)
+                || (postToDisplay.Tags != null ? postToDisplay.Tags.Select(e => e.Id.Replace('-', ' ')).Contains(searchString) : false)
+                || (postToDisplay.Tags != null ? postToDisplay.Tags.Select(e => e.Name).Contains(searchString) : false)
+                )
+                {
+                    postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatch;
+                }
+                else if ((postToDisplay.Title != null ? postToDisplay.Title.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                || (postToDisplay.Summary != null ? postToDisplay.Summary.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                || (postToDisplay.Content != null ? postToDisplay.Content.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                || postToDisplay.CreatingUser.FullName.Split(' ').Intersect(searchParts).Count() == searchParts.Length
+                || (postToDisplay.UpdatingUser != null ? postToDisplay.UpdatingUser.FullName.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                || (postToDisplay.References != null ? postToDisplay.References.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                || (postToDisplay.Tags != null ? postToDisplay.Tags.Any(e => e.Id.Split('-').Intersect(searchParts).Count() == searchParts.Length) : false)
+                || (postToDisplay.Tags != null ? postToDisplay.Tags.Any(e => e.Name.Split(' ').Intersect(searchParts).Count() == searchParts.Length) : false)
+                || postToDisplay.PostCategory.Name.Split(' ').Intersect(searchParts).Count() == searchParts.Length)
+                {
+                    postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatchButScrambled;
+                }
+                else
+                {
+                    postToDisplay.SearchMatchingType = SearchMatchingType.PartialMatch;
+                }
+
+                model.Add(postToDisplay);
+            }
+
+            model = model.OrderBy(e => e.SearchMatchingType)
+                .ToList();
+
+
+            return model;
         }
     }
 }

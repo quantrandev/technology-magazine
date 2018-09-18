@@ -24,6 +24,8 @@ namespace VNScience.Models
         public virtual ICollection<About> UpdatedAbouts { get; set; }
         public virtual ICollection<Recruitment> CreatedRecruitments { get; set; }
         public virtual ICollection<Recruitment> UpdatedRecruitments { get; set; }
+        public virtual ICollection<Slide> CreatedSlides { get; set; }
+        public virtual ICollection<Slide> UpdatedSlides { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -51,6 +53,7 @@ namespace VNScience.Models
         public virtual DbSet<Recruitment> Recruitments { get; set; }
         public virtual DbSet<SystemInfo> SystemInfoes { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<Slide> Slides { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -238,6 +241,19 @@ namespace VNScience.Models
             modelBuilder.Entity<Recruitment>()
                 .HasOptional(e => e.CreatingUser)
                 .WithMany(e => e.CreatedRecruitments)
+                .HasForeignKey(e => e.CreatedBy)
+                .WillCascadeOnDelete(false);
+
+            //user vs slides
+            modelBuilder.Entity<Slide>()
+                 .HasOptional(e => e.UpdatingUser)
+                 .WithMany(e => e.UpdatedSlides)
+                 .HasForeignKey(e => e.UpdatedBy)
+                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Slide>()
+                .HasOptional(e => e.CreatingUser)
+                .WithMany(e => e.CreatedSlides)
                 .HasForeignKey(e => e.CreatedBy)
                 .WillCascadeOnDelete(false);
         }

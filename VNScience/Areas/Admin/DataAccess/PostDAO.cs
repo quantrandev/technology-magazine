@@ -126,9 +126,19 @@ namespace VNScience.Areas.Admin.DataAccess
             return _db.Posts.Where(e => e.CreatedBy == userId).Count();
         }
 
-        //END GET
+        //statistics
+        public List<Post> MostViews(int page, int pageSize)
+        {
+            return _db.Posts
+                .Include(e => e.CreatingUser)
+                .Include(e => e.PostCategory)
+                .OrderByDescending(e => e.ViewCount)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+        }
 
-        
+        //END GET
 
         #region search
 
@@ -374,7 +384,7 @@ namespace VNScience.Areas.Admin.DataAccess
 
             return isSuccess;
         }
-        
+
         public bool IsEditing(Post post)
         {
             return post.IsLock;

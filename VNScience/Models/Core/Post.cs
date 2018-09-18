@@ -60,6 +60,8 @@
 
         public bool IsLock { get; set; }
 
+        public bool IsPreview { get; set; }
+
         [Display(Name = "Tham khảo")]
         public string References { get; set; }
 

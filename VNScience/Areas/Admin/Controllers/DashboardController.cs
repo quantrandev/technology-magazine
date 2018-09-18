@@ -30,7 +30,23 @@ namespace VNScience.Areas.Admin.Controllers
             ViewBag.UserCount = db.Users.Count();
             ViewBag.PostsCount = postDAO.GetPostsCount();
             ViewBag.PostsByUser = postDAO.GetPostCountByUser(User.Identity.GetUserId());
+            ViewBag.MostViews = postDAO.MostViews(1, 10);
             return View();
+        }
+
+        [HttpGet]
+        public JsonResult MostViews(int page, int pageSize)
+        {
+            var posts = postDAO.MostViews(page, pageSize).Select(e => new
+            {
+                Title = e.Title,
+                Author = e.CreatingUser.FullName,
+                ViewCount = e.ViewCount,
+                Time = DateTimeHelper.FormatDate(e.CreatedAt.Value),
+                CoverImage = e.CoverImage
+            }); ;
+
+            return Json(new { status = 200, data = posts }, JsonRequestBehavior.AllowGet);
         }
     }
 }

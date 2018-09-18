@@ -38,6 +38,8 @@ namespace VNScience.ViewModels
         [Display(Name = "Duyệt đăng")]
         public bool? IsApproved { get; set; }
 
+        public bool? IsPreview { get; set; }
+
         [Display(Name = "Yêu cầu xóa")]
         public bool? IsRequestedDelete { get; set; }
 

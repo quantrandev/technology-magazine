@@ -179,7 +179,7 @@ namespace VNScience.Areas.Admin.Controllers
         {
             return View(post);
         }
-
+        
         [HttpGet]
         [Authorize(Roles = RoleName.PostMod)]
         public ActionResult Edit(int id)
@@ -425,6 +425,13 @@ namespace VNScience.Areas.Admin.Controllers
             postDAO.MarkAsCanEdit(id);
 
             return Json(new { status = 200 }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult ConfirmCreate(long id)
+        {
+            
+            return RedirectToAction("Index");
         }
 
         #endregion

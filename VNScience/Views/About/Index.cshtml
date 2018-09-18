@@ -1,0 +1,16 @@
+﻿@model VNScience.Models.Core.About
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutWithoutAds.cshtml";
+}
+
+<div class="col-sm-12 col-md-12">
+    <h3 class="mb-30 mr-100 mr-sm-0"><b>VỀ CHÚNG TÔI</b></h3>
+    
+    <div class="content-container">
+        @if(Model != null)
+        {
+            @(Html.Raw(Model.Content))
+        }
+    </div>
+</div>

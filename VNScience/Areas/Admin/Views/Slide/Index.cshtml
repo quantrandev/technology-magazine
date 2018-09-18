@@ -1,0 +1,164 @@
+﻿@model IEnumerable<VNScience.Models.Core.Slide>
+@using VNScience.Common
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="">
+    <div class="row">
+        <!-- form input mask -->
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Quản lý menu <small><a href="/Admin/Slide/Create/"><i class="fa fa-plus-square-o"></i> Thêm slide</a></small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        </li>
+                        <li>
+                            <a class="close-link"><i class="fa fa-close"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content no-padding">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th style="width: 100px">
+                                @Html.DisplayNameFor(model => model.Content)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Link)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Target)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DisplayOrder)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreatedAt)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CreatedBy)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UpdatedAt)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.UpdatedBy)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@item.Content" alt="Alternate Text" />
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Link)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Target)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.DisplayOrder)
+                                </td>
+                                <td>
+                                    @DateTimeHelper.FormatDate(item.CreatedAt)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatingUser.FullName)
+                                </td>
+                                <td>
+                                    @if (item.UpdatedAt.HasValue)
+                                    {
+                                        @(DateTimeHelper.FormatDate(item.UpdatedAt.Value))
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatingUser.FullName)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Sửa", "Edit", new { id = item.Id }) |
+                                    @Html.ActionLink("Xóa", "Delete", new { id = item.Id }, new { @class = "js-delete", @data_id = item.Id })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- /form input mask -->
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        $('.js-delete').on('click', function (e) {
+            e.preventDefault();
+
+            var button = $(this);
+            bootbox.confirm("Xóa slide này?", function (result) {
+                if (!result)
+                    return;
+
+                button.closest('tr').remove();
+                $.ajax({
+                    url: '/Admin/Slide/Delete/' + button.attr('data-id'),
+                    type: 'post',
+                    success: function (res) {
+                        if (res.status == 200)
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: 'Đã xóa thành công slide',
+                                type: 'success',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                        else
+                            new PNotify({
+                                title: 'Thông báo',
+                                text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                                type: 'error',
+                                styling: 'bootstrap3',
+                                animate: {
+                                    animate: true,
+                                    in_class: 'slideInDown',
+                                    out_class: 'slideOutUp'
+                                },
+                                delay: 2500
+                            });
+                    },
+                    error: function (err) {
+                        new PNotify({
+                            title: 'Thông báo',
+                            text: 'Có lỗi xảy ra, vui lòng thử lại sau',
+                            type: 'error',
+                            styling: 'bootstrap3',
+                            animate: {
+                                animate: true,
+                                in_class: 'slideInDown',
+                                out_class: 'slideOutUp'
+                            },
+                            delay: 2500
+                        });
+                    }
+                });
+            })
+        });
+    </script>
+}
+
+
+

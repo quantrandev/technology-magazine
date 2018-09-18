@@ -249,6 +249,7 @@
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProfileController.cs" />
     <Compile Include="Areas\Admin\Controllers\RecruitmentController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SlideController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemInfoController.cs" />
     <Compile Include="Areas\Admin\DataAccess\AboutDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\ContactDAO.cs" />
@@ -257,12 +258,14 @@
     <Compile Include="Areas\Admin\DataAccess\PostCategoryDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\PostDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\RecruitmentDAO.cs" />
+    <Compile Include="Areas\Admin\DataAccess\SlideDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\SystemInfoDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\TagDAO.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\Helpers.cs" />
     <Compile Include="Common\MapperConfig.cs" />
     <Compile Include="Common\RoleName.cs" />
+    <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\ContactController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -345,7 +348,16 @@
     <Compile Include="Migrations\201809170750426_AddIsSeenColumnInContactTable.Designer.cs">
       <DependentUpon>201809170750426_AddIsSeenColumnInContactTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809171452277_AddIsPreviewColumnInPostTable.cs" />
+    <Compile Include="Migrations\201809171452277_AddIsPreviewColumnInPostTable.Designer.cs">
+      <DependentUpon>201809171452277_AddIsPreviewColumnInPostTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809180255487_AddSlideTable.cs" />
+    <Compile Include="Migrations\201809180255487_AddSlideTable.Designer.cs">
+      <DependentUpon>201809180255487_AddSlideTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Core\Slide.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Core\About.cs" />
     <Compile Include="Models\Core\Branch.cs" />
@@ -4888,6 +4900,9 @@
     <Content Include="Areas\Admin\Views\Recruitment\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Recruitment\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Contact\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Slide\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Slide\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Slide\Edit.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Common\Header.cshtml" />
     <Content Include="Views\Common\Footer.cshtml" />
@@ -4897,6 +4912,7 @@
     <Content Include="Views\Post\Detail.cshtml" />
     <Content Include="Views\Contact\Create.cshtml" />
     <Content Include="Views\Shared\_LayoutWithoutAds.cshtml" />
+    <Content Include="Views\About\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Areas\Admin\Assets\vendors\bootstrap-multiselect-master\types\bootstrap-multiselect\bootstrap-multiselect-tests.ts" />
@@ -4961,6 +4977,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809170750426_AddIsSeenColumnInContactTable.resx">
       <DependentUpon>201809170750426_AddIsSeenColumnInContactTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809171452277_AddIsPreviewColumnInPostTable.resx">
+      <DependentUpon>201809171452277_AddIsPreviewColumnInPostTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809180255487_AddSlideTable.resx">
+      <DependentUpon>201809180255487_AddSlideTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

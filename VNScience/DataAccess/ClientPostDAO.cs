@@ -129,9 +129,6 @@ namespace VNScience.DataAccess
 
             var count = query
                 .Where(predicate)
-                .OrderByDescending(e => e.CreatedAt)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
                  .Count();
 
             if (count <= pageSize)
@@ -200,7 +197,7 @@ namespace VNScience.DataAccess
                 .ToList();
         }
 
-        public List<Post> Search(string searchString, int page, int pageSize)
+        public List<Post> Search(string searchString)
         {
             var searchTerms = StringHelper.FilterWhiteSpaces(searchString).Trim().Split(' ');
 
@@ -245,9 +242,6 @@ namespace VNScience.DataAccess
 
             return query
                 .Where(predicate)
-                .OrderByDescending(e => e.CreatedAt)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
                  .ToList();
         }
 

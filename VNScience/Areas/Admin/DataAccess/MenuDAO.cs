@@ -64,6 +64,7 @@ namespace VNScience.Areas.Admin.DataAccess
             return _db.Menus
                 .Include(e => e.MenuType)
                 .Where(e => e.MenuType.Name == "Menu trên")
+                .OrderBy(e => e.DisplayOrder)
                 .ToList();
         }
 
@@ -72,6 +73,7 @@ namespace VNScience.Areas.Admin.DataAccess
             return _db.Menus
                 .Include(e => e.MenuType)
                 .Where(e => e.MenuType.Name == "Menu dưới")
+                .OrderBy(e => e.DisplayOrder)
                 .ToList();
         }
 

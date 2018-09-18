@@ -7,19 +7,17 @@ using System.Web;
 
 namespace VNScience.Models.Core
 {
-    [Table("ProductCategory")]
-    public partial class ProductCategory
+    [Table("Product")]
+    public partial class Product
     {
         public int Id { get; set; }
 
         [StringLength(100)]
         public string Name { get; set; }
 
-        public string CoverImage { get; set; }
-
         public string Description { get; set; }
 
-        public int? DisplayOrder { get; set; }
+        public string CoverImage { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
@@ -31,12 +29,9 @@ namespace VNScience.Models.Core
         [StringLength(128)]
         public string UpdatedBy { get; set; }
 
-        public int? ParentId { get; set; }
+        public int? CategoryId { get; set; }
 
-        public virtual ProductCategory Parent { get; set; }
-        public virtual List<ProductCategory> Children { get; set; }
-
-        public virtual List<Product> Products { get; set; }
+        public ProductCategory ProductCategory { get; set; }
 
         public virtual ApplicationUser CreatingUser { get; set; }
         public virtual ApplicationUser UpdatingUser { get; set; }

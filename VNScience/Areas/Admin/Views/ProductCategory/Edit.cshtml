@@ -12,7 +12,7 @@
             @Html.AntiForgeryToken()
 
             <div class="form-horizontal">
-                <h4>ProductCategory</h4>
+                <h4>Chỉnh sửa thông tin giải pháp</h4>
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 @Html.HiddenFor(model => model.Id)
@@ -42,25 +42,33 @@
                 </div>
 
                 <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <textarea id="Description" name="Description">@Model.Description</textarea>
+                        @Html.ValidationMessageFor(model => model.CoverImage, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
                     @Html.LabelFor(model => model.DisplayOrder, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @*@if (ViewBag.OtherCategories.Count() > 0)
-                        {
-                            <div class="form-group">
-                                <table class="table table-bordered" style="margin-bottom: 0">
-                                    @foreach (var category in (IEnumerable<IGrouping<ProductCategory, ProductCategory>>)ViewBag.OtherCategories)
-                                    {
-                                        <tr>
-                                            <td>@category.Key.Name (@category.Key.DisplayOrder)</td>
-                                            @foreach (var child in category)
-                                            {
-                                                <td>@child.Name (@child.DisplayOrder)</td>
-                                            }
-                                        </tr>
-                                    }
-                                </table>
-                            </div>
-                        }*@
+                            {
+                                <div class="form-group">
+                                    <table class="table table-bordered" style="margin-bottom: 0">
+                                        @foreach (var category in (IEnumerable<IGrouping<ProductCategory, ProductCategory>>)ViewBag.OtherCategories)
+                                        {
+                                            <tr>
+                                                <td>@category.Key.Name (@category.Key.DisplayOrder)</td>
+                                                @foreach (var child in category)
+                                                {
+                                                    <td>@child.Name (@child.DisplayOrder)</td>
+                                                }
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>
+                            }*@
                         @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
                     </div>
@@ -84,3 +92,11 @@
         }
     </div>
 </div>
+
+
+@section scripts {
+    <script src="//cdn.ckeditor.com/4.10.1/standard/ckeditor.js"></script>
+    <script>
+        var editor = CKEDITOR.replace('Description');
+    </script>
+}

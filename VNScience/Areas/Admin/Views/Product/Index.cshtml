@@ -1,17 +1,16 @@
-﻿@model IEnumerable<VNScience.Models.Core.ProductCategory>
+﻿@model IEnumerable<VNScience.Models.Core.Product>
 @using VNScience.Common
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
 <div class="">
     <div class="row">
         <!-- form input mask -->
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Quản lý giải pháp <small><a href="/Admin/ProductCategory/Create/"><i class="fa fa-plus-square-o"></i> Thêm giải pháp</a></small></h2>
+                    <h2>Quản lý sản phẩm - giải pháp <small><a href="/Admin/Product/Create/"><i class="fa fa-plus-square-o"></i> Thêm sản phẩm - giải pháp</a></small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                         <li>
                             <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
@@ -25,16 +24,16 @@
                 <div class="x_content no-padding">
                     <table class="table table-bordered">
                         <tr>
-                            <th style="width: 80px">
+                            <th>
                                 @Html.DisplayNameFor(model => model.CoverImage)
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Name)
                             </th>
-
                             <th>
-                                @Html.DisplayNameFor(model => model.DisplayOrder)
+                                @Html.DisplayNameFor(model => model.Description)
                             </th>
+
                             <th>
                                 @Html.DisplayNameFor(model => model.CreatedAt)
                             </th>
@@ -48,7 +47,7 @@
                                 @Html.DisplayNameFor(model => model.UpdatedBy)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.ParentId)
+                                @Html.DisplayNameFor(model => model.CategoryId)
                             </th>
                             <th></th>
                         </tr>
@@ -62,10 +61,10 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Name)
                                 </td>
-
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.DisplayOrder)
+                                    @Html.DisplayFor(modelItem => item.Description)
                                 </td>
+
                                 <td>
                                     @DateTimeHelper.FormatDate(item.CreatedAt)
                                 </td>
@@ -82,7 +81,7 @@
                                     @Html.DisplayFor(modelItem => item.UpdatingUser.FullName)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Parent.Name)
+                                    @Html.DisplayFor(modelItem => item.CategoryId)
                                 </td>
                                 <td>
                                     @Html.ActionLink("Sửa", "Edit", new { id = item.Id }) |
@@ -106,19 +105,19 @@
             e.preventDefault();
 
             var button = $(this);
-            bootbox.confirm("Xóa danh mục giải pháp này?", function (result) {
+            bootbox.confirm("Xóa giải pháp này?", function (result) {
                 if (!result)
                     return;
 
                 button.closest('tr').remove();
                 $.ajax({
-                    url: '/Admin/ProductCategory/Delete/' + button.attr('data-id'),
+                    url: '/Admin/Product/Delete/' + button.attr('data-id'),
                     type: 'post',
                     success: function (res) {
                         if (res.status == 200)
                             new PNotify({
                                 title: 'Thông báo',
-                                text: 'Đã xóa thành công danh mục giải pháp',
+                                text: 'Đã xóa thành công giải pháp',
                                 type: 'success',
                                 styling: 'bootstrap3',
                                 animate: {
@@ -161,4 +160,6 @@
         });
     </script>
 }
+
+
 

@@ -57,6 +57,7 @@ namespace VNScience.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Create(ProductCategory model)
         {
             if (!ModelState.IsValid)
@@ -85,11 +86,12 @@ namespace VNScience.Areas.Admin.Controllers
         {
             var editedCategory = productCategoryDAO.Get(id);
 
-            ViewBag.OtherCategories = productCategoryDAO.GetAllExcept(id).GroupBy(e=>e.Parent).ToList();
+            ViewBag.OtherCategories = productCategoryDAO.GetAllExcept(id).GroupBy(e => e.Parent).ToList();
             return View(editedCategory);
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult Edit(ProductCategory model)
         {
             if (!ModelState.IsValid)
@@ -121,6 +123,14 @@ namespace VNScience.Areas.Admin.Controllers
             bool isSuccess = productCategoryDAO.Delete(id);
 
             return Json(new { status = isSuccess ? 200 : 500 }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpGet]
+        public ActionResult Details(int id)
+        {
+            var product = productCategoryDAO.Get(id);
+
+            return View(product);
         }
     }
 }

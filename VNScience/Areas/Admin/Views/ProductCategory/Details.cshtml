@@ -1,0 +1,116 @@
+﻿@model VNScience.Models.Core.ProductCategory
+@using VNScience.Common
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div>
+            <h4>Thông tin chi tiết sản phẩm</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CoverImage)
+                </dt>
+
+                <dd>
+                    <img src="@Model.CoverImage" style="width: 100px" alt="Alternate Text" />
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+
+                <dd>
+                    <button class="btn btn-info" data-target="#md-description" data-toggle="modal">Xem mô tả</button>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.DisplayOrder)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DisplayOrder)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedAt)
+                </dt>
+
+                <dd>
+                    @DateTimeHelper.FormatDate(Model.CreatedAt)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreatedBy)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CreatingUser.FullName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.UpdatedAt)
+                </dt>
+
+                <dd>
+                    @if (Model.UpdatedAt.HasValue)
+                    {
+                        @(DateTimeHelper.FormatDate(Model.UpdatedAt.Value))
+                    }
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.UpdatedBy)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.UpdatingUser.FullName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ParentId)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ParentId)
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Sửa", "Edit", new { id = Model.Id }, new { @class = "btn btn-info" }) 
+            @Html.ActionLink("Quay về danh sách", "Index", null, new { @class = "btn btn-default" })
+        </p>
+    </div>
+</div>
+
+<div id="md-description" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Mô tả sản phẩm</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Raw(Model.Description)
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+
+    </div>
+</div>

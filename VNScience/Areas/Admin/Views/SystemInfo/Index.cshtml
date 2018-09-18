@@ -139,7 +139,7 @@
                         <div class="col-md-12">
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                             <div class="form-group">
-                                <textarea name="RecruitmentInfo" id="js-recruitment-info">
+                                <textarea name="ContactInfo" id="js-contact-info">
                                         @Model.ContactInfo
                                     </textarea>
                                 @Html.ValidationMessageFor(model => model.ContactInfo, "", new { @class = "text-danger" })
@@ -162,5 +162,6 @@
 
     <script>
         var editor = CKEDITOR.replace('js-recruitment-info');
+        var contactInfo = CKEDITOR.replace('js-contact-info');
     </script>
 }

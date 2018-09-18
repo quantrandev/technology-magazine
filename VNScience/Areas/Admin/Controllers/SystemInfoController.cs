@@ -28,6 +28,7 @@ namespace VNScience.Areas.Admin.Controllers
                 Logo = systemInfoDAO.GetLogo(),
                 Brand = systemInfoDAO.GetBrand(),
                 RecruitmentInfo = systemInfoDAO.GetRecruitmentInfo(),
+                ContactInfo = systemInfoDAO.GetContactInfo()
             };
 
             return View(model);
@@ -93,6 +94,7 @@ namespace VNScience.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public ActionResult EditContactInfo(SystemInfoViewModel model)
         {
             bool isSuccess = true;

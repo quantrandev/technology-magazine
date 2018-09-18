@@ -247,6 +247,7 @@
     <Compile Include="Areas\Admin\Controllers\MenuTypeController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostCategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ProductCategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProfileController.cs" />
     <Compile Include="Areas\Admin\Controllers\RecruitmentController.cs" />
     <Compile Include="Areas\Admin\Controllers\SlideController.cs" />
@@ -257,6 +258,7 @@
     <Compile Include="Areas\Admin\DataAccess\MenuTypeDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\PostCategoryDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\PostDAO.cs" />
+    <Compile Include="Areas\Admin\DataAccess\ProductCategoryDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\RecruitmentDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\SlideDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\SystemInfoDAO.cs" />
@@ -356,7 +358,16 @@
     <Compile Include="Migrations\201809180255487_AddSlideTable.Designer.cs">
       <DependentUpon>201809180255487_AddSlideTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809180346097_AddProductCategoryTable.cs" />
+    <Compile Include="Migrations\201809180346097_AddProductCategoryTable.Designer.cs">
+      <DependentUpon>201809180346097_AddProductCategoryTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809180400196_AddProductCategorySelfRelationship.cs" />
+    <Compile Include="Migrations\201809180400196_AddProductCategorySelfRelationship.Designer.cs">
+      <DependentUpon>201809180400196_AddProductCategorySelfRelationship.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Core\ProductCategory.cs" />
     <Compile Include="Models\Core\Slide.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Core\About.cs" />
@@ -4903,6 +4914,9 @@
     <Content Include="Areas\Admin\Views\Slide\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Slide\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Slide\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductCategory\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductCategory\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductCategory\Edit.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Common\Header.cshtml" />
     <Content Include="Views\Common\Footer.cshtml" />
@@ -4983,6 +4997,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809180255487_AddSlideTable.resx">
       <DependentUpon>201809180255487_AddSlideTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809180346097_AddProductCategoryTable.resx">
+      <DependentUpon>201809180346097_AddProductCategoryTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809180400196_AddProductCategorySelfRelationship.resx">
+      <DependentUpon>201809180400196_AddProductCategorySelfRelationship.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

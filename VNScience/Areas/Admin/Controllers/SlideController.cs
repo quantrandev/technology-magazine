@@ -18,6 +18,7 @@ namespace VNScience.Areas.Admin.Controllers
         {
             slideDAO = new SlideDAO(db);
         }
+
         // GET: Admin/Slide
         public ActionResult Index()
         {

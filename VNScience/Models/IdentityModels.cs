@@ -26,6 +26,8 @@ namespace VNScience.Models
         public virtual ICollection<Recruitment> UpdatedRecruitments { get; set; }
         public virtual ICollection<Slide> CreatedSlides { get; set; }
         public virtual ICollection<Slide> UpdatedSlides { get; set; }
+        public virtual ICollection<ProductCategory> CreatedProductCategories { get; set; }
+        public virtual ICollection<ProductCategory> UpdatedProductCategories { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -54,6 +56,7 @@ namespace VNScience.Models
         public virtual DbSet<SystemInfo> SystemInfoes { get; set; }
         public virtual DbSet<Tag> Tags { get; set; }
         public virtual DbSet<Slide> Slides { get; set; }
+        public virtual DbSet<ProductCategory> ProductCategories { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -256,6 +259,25 @@ namespace VNScience.Models
                 .WithMany(e => e.CreatedSlides)
                 .HasForeignKey(e => e.CreatedBy)
                 .WillCascadeOnDelete(false);
+
+            //user vs product categories
+            modelBuilder.Entity<ProductCategory>()
+                 .HasOptional(e => e.UpdatingUser)
+                 .WithMany(e => e.UpdatedProductCategories)
+                 .HasForeignKey(e => e.UpdatedBy)
+                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ProductCategory>()
+                .HasOptional(e => e.CreatingUser)
+                .WithMany(e => e.CreatedProductCategories)
+                .HasForeignKey(e => e.CreatedBy)
+                .WillCascadeOnDelete(false);
+
+            //product category self relationship
+            modelBuilder.Entity<ProductCategory>()
+                .HasOptional(e => e.Parent)
+                .WithMany(e => e.Children)
+                .HasForeignKey(e => e.ParentId);
         }
 
         public static ApplicationDbContext Create()

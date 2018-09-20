@@ -21,21 +21,24 @@
         @Html.Raw(Model.Content)
     </div>
 
-    @if (Model.MoreTags.Split(',').Length > 0)
+    @if (Model.MoreTags != null)
     {
-        <div class="float-left-right text-center mt-40 mt-sm-20 mb-30">
+        if (Model.MoreTags.Split(',').Length > 0)
+        {
+            <div class="float-left-right text-center mt-40 mt-sm-20 mb-30">
 
-            <ul class="mb-30 list-li-mt-10 list-li-mr-5 list-a-plr-15 list-a-ptb-7 list-a-bg-grey list-a-br-2 list-a-hvr-primary ">
-                @foreach (var tag in Model.MoreTags.Split(','))
-                {
-                    <li><a href="#">@tag.ToUpper()</a></li>
-                }
-            </ul>
-            <ul>
-                <li></li>
-            </ul>
+                <ul class="mb-30 list-li-mt-10 list-li-mr-5 list-a-plr-15 list-a-ptb-7 list-a-bg-grey list-a-br-2 list-a-hvr-primary ">
+                    @foreach (var tag in Model.MoreTags.Split(','))
+                    {
+                        <li><a href="#">@tag.ToUpper()</a></li>
+                    }
+                </ul>
+                <ul>
+                    <li></li>
+                </ul>
 
-        </div><!-- float-left-right -->
-        <div class="brdr-ash-1 opacty-5"></div>
+            </div><!-- float-left-right -->
+            <div class="brdr-ash-1 opacty-5"></div>
+        }
     }
 </div>

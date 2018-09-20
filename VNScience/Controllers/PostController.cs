@@ -153,7 +153,7 @@ namespace VNScience.Controllers
             var count = postDAO.Search(searchString)
                 .Skip((page - 1) * pageSize)
                 .Count();
-
+            
             if (count <= pageSize)
                 return false;
             return true;
@@ -161,6 +161,7 @@ namespace VNScience.Controllers
 
         public List<PostViewModel> ProcessPost(List<Post> posts, string searchString)
         {
+            searchString = searchString.ToLower();
             List<PostViewModel> model = new List<PostViewModel>();
 
             //process for best visualize data
@@ -169,34 +170,34 @@ namespace VNScience.Controllers
             {
                 var postToDisplay = Mapper.Map<PostViewModel>(post);
 
-                if ((postToDisplay.Title != null ? postToDisplay.Title.Contains(searchString) : false))
+                if ((postToDisplay.Title != null ? postToDisplay.Title.ToLower().Contains(searchString) : false))
                 {
                     postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatchTitle;
                 }
-                else if ((postToDisplay.Summary != null ? postToDisplay.Summary.Contains(searchString) : false)
-                || (postToDisplay.Content != null ? postToDisplay.Content.Contains(searchString) : false)
-                || postToDisplay.CreatingUser.FullName.Contains(searchString)
-                || (postToDisplay.UpdatingUser != null ? postToDisplay.UpdatingUser.FullName.Contains(searchString) : false)
-                || (postToDisplay.References != null ? postToDisplay.References.Contains(searchString) : false)
-                || postToDisplay.PostCategory.Name.Contains(searchString)
+                else if ((postToDisplay.Summary != null ? postToDisplay.Summary.ToLower().Contains(searchString) : false)
+                || (postToDisplay.Content != null ? postToDisplay.Content.ToLower().Contains(searchString) : false)
+                || postToDisplay.CreatingUser.FullName.ToLower().Contains(searchString)
+                || (postToDisplay.UpdatingUser != null ? postToDisplay.UpdatingUser.FullName.ToLower().Contains(searchString) : false)
+                || (postToDisplay.References != null ? postToDisplay.References.ToLower().Contains(searchString) : false)
+                || postToDisplay.PostCategory.Name.ToLower().Contains(searchString)
                 || (postToDisplay.Tags != null ? postToDisplay.Tags.Select(e => e.Id.Replace('-', ' ')).Contains(searchString) : false)
                 || (postToDisplay.Tags != null ? postToDisplay.Tags.Select(e => e.Name).Contains(searchString) : false)
                 )
                 {
                     postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatchOther;
                 }
-                else if ((postToDisplay.Title != null ? postToDisplay.Title.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false))
+                else if ((postToDisplay.Title != null ? postToDisplay.Title.ToLower().Split(' ').Intersect(searchParts).Count() == searchParts.Length : false))
                 {
                     postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatchTitleButScrambled;
                 }
-                else if ((postToDisplay.Summary != null ? postToDisplay.Summary.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
-                || (postToDisplay.Content != null ? postToDisplay.Content.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
-                || postToDisplay.CreatingUser.FullName.Split(' ').Intersect(searchParts).Count() == searchParts.Length
-                || (postToDisplay.UpdatingUser != null ? postToDisplay.UpdatingUser.FullName.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
-                || (postToDisplay.References != null ? postToDisplay.References.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                else if ((postToDisplay.Summary != null ? postToDisplay.Summary.ToLower().Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                || (postToDisplay.Content != null ? postToDisplay.Content.ToLower().Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                || postToDisplay.CreatingUser.FullName.ToLower().Split(' ').Intersect(searchParts).Count() == searchParts.Length
+                || (postToDisplay.UpdatingUser != null ? postToDisplay.UpdatingUser.FullName.ToLower().Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                || (postToDisplay.References != null ? postToDisplay.References.ToLower().Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
                 || (postToDisplay.Tags != null ? postToDisplay.Tags.Any(e => e.Id.Split('-').Intersect(searchParts).Count() == searchParts.Length) : false)
                 || (postToDisplay.Tags != null ? postToDisplay.Tags.Any(e => e.Name.Split(' ').Intersect(searchParts).Count() == searchParts.Length) : false)
-                || postToDisplay.PostCategory.Name.Split(' ').Intersect(searchParts).Count() == searchParts.Length)
+                || postToDisplay.PostCategory.Name.ToLower().Split(' ').Intersect(searchParts).Count() == searchParts.Length)
                 {
                     postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatchOtherButScrambled;
                 }

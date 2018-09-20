@@ -1,6 +1,7 @@
 ﻿@model VNScience.ViewModels.PostViewModel
 @using VNScience.Common
 @using VNScience.ViewModels
+@using System.Text.RegularExpressions
 
 @{
     ViewBag.Title = "Detail";
@@ -18,7 +19,14 @@
     var title = Model.Title;
     foreach (var item in searchParts)
     {
-        title = title.Replace(item, "<b class=\"highlight\">" + item + "</b>");
+        //title = title.Replace(item., "<b class=\"highlight\">" + item + "</b>");
+        while (title.ToLower().IndexOf(" " + item.ToLower() + " ") != -1)
+        {
+            var matchElement = title.Substring(title.ToLower().IndexOf(" " + item.ToLower() + " ") + 1, item.Length);
+            title = title.Replace(matchElement, "<b class=\"highlight\">" + matchElement + "</b>");
+
+           
+        }
     }
 }
 
@@ -102,8 +110,33 @@
             if (searchString !== '' && searchString !== null) {
                 var searchParts = searchString.split(' ')
                 $('.content-container').find('p').each(function (index, value) {
+                    var content = value.innerHTML;
                     for (var i = 0; i < searchParts.length; i++) {
-                        value.innerHTML = value.innerHTML.replace(new RegExp(searchParts[i], 'g'), "<b class='highlight'>" + searchParts[i] + "</b> ");
+                        //while (content.toLowerCase().indexOf(" " + searchParts[i].toLowerCase() + " ") != -1) {
+                        //    var matchElement = content.substring(content.toLowerCase().indexOf(" " + searchParts[i].toLowerCase() + " ") + 1,
+                        //        content.toLowerCase().indexOf(" " + searchParts[i].toLowerCase() + " ") + 1 + searchParts[i].length);
+                        //    content = content.replace(new RegExp(matchElement, 'g'), "<b class='highlight'>" + matchElement + "</b> ");
+                        //}
+                        //while (content.toLowerCase().indexOf("" + searchParts[i].toLowerCase() + " ") != -1) {
+                        //    var matchElement = content.substring(content.toLowerCase().indexOf("" + searchParts[i].toLowerCase() + " "),
+                        //        content.toLowerCase().indexOf("" + searchParts[i].toLowerCase() + " ") + searchParts[i].length);
+                        //    content = content.replace(new RegExp(matchElement, 'g'), "<b class='highlight'>" + matchElement + "</b> ");
+                        //}
+                        //while (content.toLowerCase().indexOf(" " + searchParts[i].toLowerCase() + "") != -1) {
+                        //    var matchElement = content.substring(content.toLowerCase().indexOf(" " + searchParts[i].toLowerCase() + "") + 1,
+                        //        content.toLowerCase().indexOf(" " + searchParts[i].toLowerCase() + "") + 1 + searchParts[i].length);
+                        //    content = content.replace(new RegExp(matchElement, 'g'), "<b class='highlight'>" + matchElement + "</b> ");
+                        //}
+                        //while (content.toLowerCase().indexOf("" + searchParts[i].toLowerCase() + "</a>") != -1) {
+                        //    var matchElement = content.substring(content.toLowerCase().indexOf("" + searchParts[i].toLowerCase() + "</a>"),
+                        //        content.toLowerCase().indexOf("" + searchParts[i].toLowerCase() + "</a>") + searchParts[i].length);
+                        //    content = content.replace(new RegExp(matchElement, 'g'), "<b class='highlight'>" + matchElement + "</b> ");
+                        //}
+
+                        value.innerHTML = value.innerHTML.replace(new RegExp(searchParts[i], 'gi'), function (e) {
+                            return '<b class=\'highlight\'>' + e + '</b>';
+                        });
+
                     }
                 });
             }

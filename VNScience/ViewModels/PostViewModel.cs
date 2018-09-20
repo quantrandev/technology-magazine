@@ -14,6 +14,7 @@ namespace VNScience.ViewModels
         public long Id { get; set; }
 
         [Display(Name = "Tiêu đề")]
+        [Required]
         public string Title { get; set; }
 
         [Display(Name = "Tiêu đề SEO")]
@@ -23,14 +24,19 @@ namespace VNScience.ViewModels
         public string Author { get; set; }
 
         [StringLength(5000)]
+        [Required]
         [Display(Name = "Tóm tắt")]
         public string Summary { get; set; }
 
         [Display(Name = "Nội dung")]
+        [Required]
         public string Content { get; set; }
 
         [Display(Name = "Ảnh bìa")]
+        [Required]
         public string CoverImage { get; set; }
+
+        public HttpPostedFileBase UploadedFile { get; set; }
 
         [Display(Name = "Lượt xem")]
         public int? ViewCount { get; set; }

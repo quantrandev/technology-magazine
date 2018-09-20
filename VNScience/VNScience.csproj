@@ -4941,6 +4941,7 @@
     <Content Include="Areas\Admin\Views\Ad\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Ad\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Ad\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Post\ToPreview.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Common\Header.cshtml" />
     <Content Include="Views\Common\Footer.cshtml" />
@@ -4952,6 +4953,7 @@
     <Content Include="Views\Shared\_LayoutWithoutAds.cshtml" />
     <Content Include="Views\About\Index.cshtml" />
     <Content Include="Views\Common\TopCenter.cshtml" />
+    <Content Include="Views\Post\Tags.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Areas\Admin\Assets\vendors\bootstrap-multiselect-master\types\bootstrap-multiselect\bootstrap-multiselect-tests.ts" />

@@ -13,7 +13,7 @@ namespace VNScience.Areas.Admin.Controllers
     public class BaseController : Controller
     {
         protected Notification Notification { get; set; }
-        PostDAO postDAO; 
+        PostDAO postDAO;
 
         public BaseController()
         {
@@ -40,6 +40,28 @@ namespace VNScience.Areas.Admin.Controllers
                     {
                         isSuccess = false;
                     }
+                }
+            }
+
+            return path.ToArray();
+        }
+        protected string[] UploadFileIndirect(string relativePath, HttpPostedFileBase file)
+        {
+            bool isSuccess = true;
+
+            var path = new List<string>();
+            if (file.ContentLength > 0)
+            {
+                try
+                {
+                    var fileName = Path.GetFileName(file.FileName);
+                    var savePath = Path.Combine(Server.MapPath(relativePath), fileName);
+                    path.Add(Path.Combine(relativePath, fileName));
+                    file.SaveAs(savePath);
+                }
+                catch (Exception e)
+                {
+                    isSuccess = false;
                 }
             }
 

@@ -103,6 +103,9 @@ namespace VNScience.Areas.Admin.Controllers
         [Authorize(Roles = RoleName.PostMod)]
         public ActionResult Create()
         {
+            //Remove preview post
+            Session["PreviewPost"] = null;
+
             var postCategories = db.PostCategories.ToList();
             //postcategories selectlist
             var postCategoriesSelectList = new MySelectList()
@@ -143,13 +146,50 @@ namespace VNScience.Areas.Admin.Controllers
         [Authorize(Roles = RoleName.PostMod)]
         public ActionResult Create(PostViewModel model)
         {
-            bool isSuccess = true;
             if (!ModelState.IsValid)
-                return View();
+            {
+                Notification.Error("Vui lòng nhập đủ thông tin", Session);
+                return RedirectToAction("Create");
+            }
 
             //upload file
             var uploadResult = UploadFile(Common.Constants.AdminImagesUrl);
             model.CoverImage = uploadResult.Length == 0 ? "" : uploadResult[0];
+
+            Session["PreviewPost"] = model;
+            Notification.Info("Đang ở chế chộ xem trước, vui bấm Lưu bài viết để đăng bài, Hủy để hủy đăng bài", Session);
+            return RedirectToAction("ToPreview");
+        }
+
+        [HttpGet]
+        [Authorize(Roles = RoleName.PostMod)]
+        public ActionResult ToPreview()
+        {
+            if (Session["PreviewPost"] == null)
+                return RedirectToAction("Index");
+
+            return View();
+        }
+
+        [HttpGet]
+        [Authorize(Roles = RoleName.PostMod)]
+        public ActionResult Preview()
+        {
+            var previewPost = Session["PreviewPost"];
+            if (previewPost == null)
+                return RedirectToAction("Index");
+
+            previewPost = (PostViewModel)Session["PreviewPost"];
+            return View(previewPost);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = RoleName.PostMod)]
+        public ActionResult Insert()
+        {
+            PostViewModel model = (PostViewModel)Session["PreviewPost"];
+
+            bool isSuccess = true;
 
             model.MetaTitle = string.IsNullOrEmpty(model.MetaTitle) ? StringHelper.ToUnsignString(model.Title) : model.MetaTitle;
             model.CreatedAt = DateTime.Now;
@@ -172,20 +212,18 @@ namespace VNScience.Areas.Admin.Controllers
 
 
             if (!isSuccess)
+            {
+                Session["PreviewPost"] = null;
                 Notification.Error("Có lỗi xảy ra, vui lòng thử lại sau", Session);
+            }
             else
-                Notification.Success("Xử lý bài viết hoàn tất", Session);
+            {
+                Notification.Success("Đăng bài thành công", Session);
+            }
 
             return RedirectToAction("Index");
         }
 
-        [HttpGet]
-        [Authorize(Roles = RoleName.PostMod)]
-        public ActionResult Preview(Post post)
-        {
-            return View(post);
-        }
-        
         [HttpGet]
         [Authorize(Roles = RoleName.PostMod)]
         public ActionResult Edit(int id)
@@ -436,7 +474,7 @@ namespace VNScience.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult ConfirmCreate(long id)
         {
-            
+
             return RedirectToAction("Index");
         }
 

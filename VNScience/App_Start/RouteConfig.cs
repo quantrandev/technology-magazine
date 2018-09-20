@@ -49,6 +49,13 @@ namespace VNScience
            );
 
             routes.MapRoute(
+             name: "Tags",
+             url: "tags/{tag}",
+             defaults: new { controller = "Post", action = "Tags" },
+             namespaces: new[] { "VNScience.Controllers" }
+         );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },

@@ -24,7 +24,17 @@ namespace VNScience.DataAccess
                 .Include(e => e.CreatingUser)
                 .Include(e => e.Tags)
                 .Include(e => e.PostCategory)
+                .Where(e => e.IsApproved.Value)
                 .FirstOrDefault(e => e.Id == id);
+        }
+
+        public List<Post> GetByTag(string tag)
+        {
+            return _db.Posts
+                .Include(e => e.Tags)
+                .OrderByDescending(e => e.CreatedAt)
+                .Where(e => e.Tags.Select(t => t.Id).Contains(tag))
+                .ToList();
         }
 
         //need to fix
@@ -32,6 +42,7 @@ namespace VNScience.DataAccess
         {
             return _db.Posts
                 .OrderByDescending(e => e.Id)
+                .Where(e => e.IsApproved.Value)
                 .Skip(0)
                 .Take(6)
                 .ToList();
@@ -42,18 +53,21 @@ namespace VNScience.DataAccess
             List<Post> posts;
             var count = _db.Posts
                 .OrderByDescending(e => e.CreatedAt)
+                .Where(e => e.IsApproved.Value)
                 .Skip((page - 1) * pageSize)
                 .Count();
 
             if (count < pageSize)
                 posts = _db.Posts
                 .OrderByDescending(e => e.CreatedAt)
+                .Where(e => e.IsApproved.Value)
                 .Skip((page - 1) * pageSize)
                 .Take(count)
                 .ToList();
 
             posts = _db.Posts
                 .OrderByDescending(e => e.CreatedAt)
+                .Where(e => e.IsApproved.Value)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
@@ -65,6 +79,7 @@ namespace VNScience.DataAccess
         {
             var count = _db.Posts
                .OrderByDescending(e => e.CreatedAt)
+                .Where(e => e.IsApproved.Value)
                .Skip((page - 1) * pageSize)
                .Count();
             if (count <= pageSize)
@@ -76,6 +91,7 @@ namespace VNScience.DataAccess
         {
             var count = _db.Posts
                 .Where(e => e.CategoryId == categoryId)
+                .Where(e => e.IsApproved.Value)
                .OrderByDescending(e => e.CreatedAt)
                .Skip((page - 1) * pageSize)
                .Count();
@@ -129,6 +145,7 @@ namespace VNScience.DataAccess
 
             var count = query
                 .Where(predicate)
+                .Where(e => e.IsApproved.Value)
                  .Count();
 
             if (count <= pageSize)
@@ -158,6 +175,7 @@ namespace VNScience.DataAccess
             return _db.Posts
                 .OrderByDescending(e => e.CreatedAt)
                 .OrderByDescending(e => e.ViewCount)
+                .Where(e => e.IsApproved.Value)
                 .Skip(0)
                 .Take(5)
                 .ToList();
@@ -172,6 +190,7 @@ namespace VNScience.DataAccess
         {
             return _db.Posts
                 .Where(e => e.CategoryId == categoryId && e.Id != id)
+                .Where(e => e.IsApproved.Value)
                 .OrderByDescending(e => e.CreatedAt)
                 .Skip(0)
                 .Take(4)
@@ -182,6 +201,7 @@ namespace VNScience.DataAccess
         {
             return _db.Posts
                 .Where(e => e.CategoryId == categoryId)
+                .Where(e => e.IsApproved.Value)
                 .OrderByDescending(e => e.CreatedAt)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -194,6 +214,7 @@ namespace VNScience.DataAccess
                 .Include(e => e.CreatingUser)
                 .Include(e => e.PostCategory)
                 .Include(e => e.Tags)
+                .Where(e => e.IsApproved.Value)
                 .ToList();
         }
 
@@ -242,6 +263,7 @@ namespace VNScience.DataAccess
 
             return query
                 .Where(predicate)
+                .Where(e => e.IsApproved.Value)
                  .ToList();
         }
 
@@ -289,6 +311,7 @@ namespace VNScience.DataAccess
             return query
                 .Where(e => e.CategoryId == categoryId)
                 .Where(predicate)
+                .Where(e => e.IsApproved.Value)
                 .OrderByDescending(e => e.CreatedAt)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)

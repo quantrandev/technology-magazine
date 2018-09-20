@@ -3,7 +3,39 @@
 
 @{
     ViewBag.Title = "Preview";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
+<div class="col-md-12 col-lg-8">
+    <img src="@Model.CoverImage" alt="">
+    <h3 class="mt-30"><b>@Model.Title</b></h3>
+    <ul class="list-li-mr-20 mtb-15">
+        @*<li>by <b>@Model.CreatingUser.FullName</b> @DateTimeHelper.FormatDate(Model.CreatedAt.Value)</li>*@
+        @*<li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>@Model.ViewCount</li>*@
+        @*<li><a href="#"><i class="ion-ios-folder"></i> @Model.PostCategory.Name</a></li>*@
+        @*<li><i class="color-primary mr-5 font-12 ion-chatbubbles"></i>30</li>*@
+    </ul>
+
+    <div class="content-container mb-30">
+        @Html.Raw(Model.Content)
+    </div>
+
+    @if (Model.MoreTags.Split(',').Length > 0)
+    {
+        <div class="float-left-right text-center mt-40 mt-sm-20 mb-30">
+
+            <ul class="mb-30 list-li-mt-10 list-li-mr-5 list-a-plr-15 list-a-ptb-7 list-a-bg-grey list-a-br-2 list-a-hvr-primary ">
+                @foreach (var tag in Model.MoreTags.Split(','))
+                {
+                    <li><a href="#">@tag.ToUpper()</a></li>
+                }
+            </ul>
+            <ul>
+                <li></li>
+            </ul>
+
+        </div><!-- float-left-right -->
+        <div class="brdr-ash-1 opacty-5"></div>
+    }
+</div>

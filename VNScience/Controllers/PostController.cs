@@ -85,6 +85,22 @@ namespace VNScience.Controllers
         }
 
         [HttpGet]
+        public ActionResult Tags(string tag)
+        {
+            var model = new List<PostViewModel>();
+            var postsByTag = postDAO.GetByTag(tag);
+
+            foreach (var item in postsByTag)
+            {
+                model.Add(Mapper.Map<PostViewModel>(item));
+            }
+
+            ViewBag.Tag = db.Tags.Find(tag).Name;
+            return View(model);
+        }
+
+        //helpers
+        [HttpGet]
         public JsonResult CategoryPaging(int categoryId, int page, int pageSize)
         {
             var posts = postDAO.GetByCategory(categoryId, page, pageSize).Select(e => new

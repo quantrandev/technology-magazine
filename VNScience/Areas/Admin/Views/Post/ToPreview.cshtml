@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewBag.Title = "ToPreview";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="margin-bottom: 20px;">
+    <div class="col-md-12">
+        <form action="/Admin/Post/Insert" method="post">
+            <div class="form-group">
+                <button class="btn btn-success" type="submit"><i class="fa fa-save"></i> Lưu bài viết</button>
+                <a href="/Admin/Post/Create" class="btn btn-danger"><i class="fa fa-trash-o"></i> Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <iframe src="/Admin/Post/Preview/" style="width: 100%; height: 600px"></iframe>
+    </div>
+</div>
+

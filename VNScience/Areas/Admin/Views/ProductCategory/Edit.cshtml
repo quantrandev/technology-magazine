@@ -1,8 +1,11 @@
 ﻿@model VNScience.Models.Core.ProductCategory
 @using VNScience.Models.Core
+@using VNScience.Common
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    var otherCategories = (List<ProductCategory>)ViewBag.OtherCategories;
 }
 
 <div class="row">
@@ -52,23 +55,30 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.DisplayOrder, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @*@if (ViewBag.OtherCategories.Count() > 0)
-                            {
-                                <div class="form-group">
-                                    <table class="table table-bordered" style="margin-bottom: 0">
-                                        @foreach (var category in (IEnumerable<IGrouping<ProductCategory, ProductCategory>>)ViewBag.OtherCategories)
-                                        {
-                                            <tr>
-                                                <td>@category.Key.Name (@category.Key.DisplayOrder)</td>
-                                                @foreach (var child in category)
-                                                {
-                                                    <td>@child.Name (@child.DisplayOrder)</td>
-                                                }
-                                            </tr>
-                                        }
-                                    </table>
-                                </div>
-                            }*@
+                        @if (otherCategories.Count() > 0)
+                        {
+                            <ul class="list-group">
+                                @foreach (var category in otherCategories)
+                                {
+                                    if (category.Parent == null)
+                                    {
+                                        <li class="list-group-item">
+
+                                            <span>@category.Name</span> <span>(@category.DisplayOrder)</span>
+                                            @if (category.Children.Count > 0)
+                                            {
+                                                <ul>
+                                                    @foreach (var child in category.Children)
+                                                    {
+                                                        <li>@child.Name (@child.DisplayOrder)</li>
+                                                    }
+                                                </ul>
+                                            }
+                                        </li>
+                                    }
+                                }
+                            </ul>
+                        }
                         @Html.EditorFor(model => model.DisplayOrder, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
                     </div>
@@ -77,7 +87,9 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.ParentId, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.ParentId, new { htmlAttributes = new { @class = "form-control" } })
+                        @{
+                            Html.RenderAction("Select", "Common", (MySelectList)ViewBag.Parents);
+                        }
                         @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
                     </div>
                 </div>

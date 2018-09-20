@@ -22,6 +22,7 @@ namespace VNScience.Areas.Admin.DataAccess
                 .Include(e => e.CreatingUser)
                 .Include(e => e.UpdatingUser)
                 .Include(e => e.Parent)
+                .Include(e=>e.Children)
                 .ToList();
         }
 
@@ -41,6 +42,7 @@ namespace VNScience.Areas.Admin.DataAccess
                 .Include(e => e.CreatingUser)
                 .Include(e => e.UpdatingUser)
                 .Include(e => e.Parent)
+                .Include(e => e.Children)
                 .FirstOrDefault(e => e.Id == id);
         }
 

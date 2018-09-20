@@ -7,23 +7,25 @@ using System.Web;
 
 namespace VNScience.Models.Core
 {
-    [Table("ProductCategory")]
-    public partial class ProductCategory
+    [Table("Ad")]
+    public partial class Ad
     {
         public int Id { get; set; }
 
-        [StringLength(100)]
-        [Display(Name = "Tên giải pháp")]
-        public string Name { get; set; }
+        [Display(Name = "Hình ảnh")]
+        public string Content { get; set; }
 
-        [Display(Name = "Ảnh bìa")]
-        public string CoverImage { get; set; }
+        [Display(Name = "Liên kết")]
+        public string Link { get; set; }
 
-        [Display(Name = "Mô tả")]
-        public string Description { get; set; }
+        [StringLength(50)]
+        public string Target { get; set; }
 
-        [Display(Name = "Thứ tự hiển thị")]
-        public int? DisplayOrder { get; set; }
+        [Display(Name = "Số lần click")]
+        public long ClickCount { get; set; }
+
+        [Display(Name = "Vị trí hiển thị")]
+        public int Position { get; set; }
 
         [Display(Name = "Ngày tạo")]
         public DateTime CreatedAt { get; set; }
@@ -38,14 +40,6 @@ namespace VNScience.Models.Core
         [StringLength(128)]
         [Display(Name = "Người sửa")]
         public string UpdatedBy { get; set; }
-
-        [Display(Name = "Thuộc giải pháp")]
-        public int? ParentId { get; set; }
-
-        public virtual ProductCategory Parent { get; set; }
-        public virtual List<ProductCategory> Children { get; set; }
-
-        public virtual List<Product> Products { get; set; }
 
         public virtual ApplicationUser CreatingUser { get; set; }
         public virtual ApplicationUser UpdatingUser { get; set; }

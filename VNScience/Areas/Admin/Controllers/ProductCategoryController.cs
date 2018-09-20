@@ -52,7 +52,7 @@ namespace VNScience.Areas.Admin.Controllers
             }
 
             ViewBag.Parents = parentSelectList;
-            ViewBag.OtherCategories = productCategoryDAO.GetAll().GroupBy(e => e.Parent).ToList();
+            ViewBag.OtherCategories = productCategoryDAO.GetAll().ToList();
             return View();
         }
 
@@ -86,7 +86,32 @@ namespace VNScience.Areas.Admin.Controllers
         {
             var editedCategory = productCategoryDAO.Get(id);
 
-            ViewBag.OtherCategories = productCategoryDAO.GetAllExcept(id).GroupBy(e => e.Parent).ToList();
+            var categories = productCategoryDAO.GetAll();
+
+            //parent selectlist
+            var parentSelectList = new MySelectList()
+            {
+                FormElementName = "ParentId"
+            };
+            parentSelectList.Items.Add(new MySelectListItem()
+            {
+                Id = "",
+                Name = "Chọn danh mục cha"
+            });
+            foreach (var item in categories)
+            {
+                if (item.Id == editedCategory.ParentId)
+                    parentSelectList.SelectedItems.Add(item.Id.ToString());
+
+                parentSelectList.Items.Add(new MySelectListItem()
+                {
+                    Id = item.Id.ToString(),
+                    Name = item.Name
+                });
+            }
+
+            ViewBag.Parents = parentSelectList;
+            ViewBag.OtherCategories = productCategoryDAO.GetAllExcept(id).ToList();
             return View(editedCategory);
         }
 

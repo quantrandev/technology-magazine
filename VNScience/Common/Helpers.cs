@@ -14,7 +14,7 @@ namespace VNScience.Common
         public string Message;
         public MessageType Type;
     }
-    
+
     public class Notification
     {
         public void Success(string message, HttpSessionStateBase Session, string title = "Thông báo")
@@ -252,5 +252,12 @@ namespace VNScience.Common
         Error,
         Warning,
         Info
+    }
+
+    public enum AdPosition
+    {
+        TopCenter = 1,
+        TopLeft = 2,
+        BottomLeft = 3
     }
 }

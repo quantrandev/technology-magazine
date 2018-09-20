@@ -23,32 +23,41 @@ namespace VNScience.Areas.Admin.Controllers
         // GET: Admin/SystemInfo
         public ActionResult Index()
         {
+            var socialLinks = systemInfoDAO.GetSocialLink();
+            var contactInfo = systemInfoDAO.GetContactInfo();
             var model = new SystemInfoViewModel()
             {
                 Logo = systemInfoDAO.GetLogo(),
                 Brand = systemInfoDAO.GetBrand(),
                 RecruitmentInfo = systemInfoDAO.GetRecruitmentInfo(),
-                ContactInfo = systemInfoDAO.GetContactInfo()
+                Facebook = socialLinks.Facebook,
+                Linkedin = socialLinks.Linkedin,
+                Youtube = socialLinks.Youtube,
+                Hotline = contactInfo.Hotline,
+                Email = contactInfo.Email,
+                Website = contactInfo.Website,
+                CompanyFullName = contactInfo.CompanyFullName,
+                Headquater = contactInfo.Headquater
             };
 
             return View(model);
         }
 
-        [HttpPost]
-        public ActionResult EditBrand(SystemInfoViewModel model)
-        {
-            if (!ModelState.IsValid)
-                return RedirectToAction("Index");
+        //[HttpPost]
+        //public ActionResult EditBrand(SystemInfoViewModel model)
+        //{
+        //    if (!ModelState.IsValid)
+        //        return RedirectToAction("Index");
 
-            bool isSuccess = systemInfoDAO.UpdateBrand(model.Brand);
+        //    bool isSuccess = systemInfoDAO.UpdateBrand(model.Brand);
 
-            if (isSuccess)
-                Notification.Success("Đã cập nhật thành công tên công ty", Session);
-            else
-                Notification.Error("Có lỗi xảy ra, vui lòng thử lại sau", Session);
+        //    if (isSuccess)
+        //        Notification.Success("Đã cập nhật thành công tên công ty", Session);
+        //    else
+        //        Notification.Error("Có lỗi xảy ra, vui lòng thử lại sau", Session);
 
-            return RedirectToAction("Index");
-        }
+        //    return RedirectToAction("Index");
+        //}
 
         [HttpPost]
         [ValidateInput(false)]
@@ -102,11 +111,27 @@ namespace VNScience.Areas.Admin.Controllers
             if (!ModelState.IsValid)
                 return RedirectToAction("Index");
 
-            isSuccess = systemInfoDAO.UpdateContactInfo(model.ContactInfo);
+            isSuccess = systemInfoDAO.UpdateContactInfo(model);
             if (isSuccess)
                 Notification.Success("Đã cập nhật thành công thông tin liên hệ", Session);
             else
                 Notification.Error("Có lỗi xảy ra, vui lòng thử lại sau", Session);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult EditSocialLink(SystemInfoViewModel model)
+        {
+            if (!ModelState.IsValid)
+                return RedirectToAction("Index");
+
+            bool isSuccess = systemInfoDAO.UpdateSocialLink(model);
+
+            if (isSuccess)
+                Notification.Success("Đã cập nhật thành công liên kết mạng xã hội", Session);
+            else
+                Notification.Error("Có lỗi xảy ra, vui lòng thử lại sau", Session);
+
             return RedirectToAction("Index");
         }
     }

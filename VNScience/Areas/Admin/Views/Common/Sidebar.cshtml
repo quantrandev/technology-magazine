@@ -109,27 +109,24 @@
                 @if (Roles.IsUserInRole(RoleName.SystemMod))
                 {
                     @*<li class="branch">
-                            <a><i class="fa fa-building-o"></i> CHI NHÁNH - TRỤ SỞ</a>
-                        </li>*@
+                <a><i class="fa fa-building-o"></i> CHI NHÁNH - TRỤ SỞ</a>
+            </li>*@
                     @*<li>
-                            <a>
-                                <i class="fa fa-th-list"></i> QUẢN LÝ GIẢI PHÁP
-                                <span class="fa fa-chevron-down"></span>
-                            </a>
-                            <ul class="nav child_menu">
-                                <li><a href="/Admin/ProductCategory/">DANH MỤC GIẢI PHÁP</a></li>
-                                <li><a href="/Admin/Product/">SẢN PHẨM - GIẢI PHÁP</a></li>
-                            </ul>
-                        </li>*@
+                <a>
+                    <i class="fa fa-th-list"></i> QUẢN LÝ GIẢI PHÁP
+                    <span class="fa fa-chevron-down"></span>
+                </a>
+                <ul class="nav child_menu">
+                    <li><a href="/Admin/ProductCategory/">DANH MỤC GIẢI PHÁP</a></li>
+                    <li><a href="/Admin/Product/">SẢN PHẨM - GIẢI PHÁP</a></li>
+                </ul>
+            </li>*@
                     <li><a href="/Admin/ProductCategory/"><i class="fa fa-laptop"></i> SẢN PHẨM - GIẢI PHÁP</a></li>
                     <li class="recruitment">
                         <a href="/Admin/Recruitment/"><i class="fa fa-suitcase"></i> TUYỂN DỤNG</a>
                     </li>
                     <li class="contact">
                         <a href="/Admin/Contact/"><i class="fa fa-envelope-o"></i> LIÊN HỆ</a>
-                    </li>
-                    <li class="system">
-                        <a href="/Admin/SystemInfo/"><i class="fa fa-cogs"></i> HỆ THỐNG</a>
                     </li>
                     <li class="system">
                         <a href="/Admin/About/"><i class="fa fa-file-text-o"></i> GIỚI THIỆU</a>
@@ -143,8 +140,14 @@
                             @*<span class="fa fa-chevron-down"></span>*@
                         </a>
                         @*<ul class="nav child_menu">
-                                <li><a href="/Admin/Menu/">MENU</a></li>
-                            </ul>*@
+                    <li><a href="/Admin/Menu/">MENU</a></li>
+                </ul>*@
+                    </li>
+                    <li class="system">
+                        <a href="/Admin/Ad/"><i class="fa fa-bolt"></i> QUẢNG CÁO</a>
+                    </li>
+                    <li class="system">
+                        <a href="/Admin/SystemInfo/"><i class="fa fa-cogs"></i> HỆ THỐNG</a>
                     </li>
                 }
             </ul>

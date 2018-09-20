@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using VNScience.Models;
+using VNScience.ViewModels;
 
 namespace VNScience.Areas.Admin.DataAccess
 {
@@ -31,10 +32,21 @@ namespace VNScience.Areas.Admin.DataAccess
             return _db.SystemInfoes.Find("recruitmentInfo").Content;
         }
 
-        public string GetContactInfo()
+        public SystemInfoViewModel GetContactInfo()
         {
-            return _db.SystemInfoes.Find("contactInfo").Content;
+            var systemInfo = new SystemInfoViewModel()
+            {
+                Hotline = _db.SystemInfoes.Find("hotline").Content,
+                Email = _db.SystemInfoes.Find("email").Content,
+                Website = _db.SystemInfoes.Find("website").Content,
+                CompanyFullName = _db.SystemInfoes.Find("companyfullname").Content,
+                Brand = _db.SystemInfoes.Find("brand").Content,
+                Headquater = _db.SystemInfoes.Find("headquater").Content
+            };
+            return systemInfo;
         }
+
+
 
         //Update
         public bool UpdateBrand(string newBrand)
@@ -91,15 +103,67 @@ namespace VNScience.Areas.Admin.DataAccess
 
             return isSuccess;
         }
-        public bool UpdateContactInfo(string newContactInfo)
+        public bool UpdateContactInfo(SystemInfoViewModel model)
         {
             bool isSuccess = true;
-            var contactInfo = _db.SystemInfoes.Find("contactInfo");
-            contactInfo.Content = newContactInfo;
+            var hotline = _db.SystemInfoes.Find("hotline");
+            hotline.Content = model.Hotline;
+            var email = _db.SystemInfoes.Find("email");
+            email.Content = model.Email;
+            var website = _db.SystemInfoes.Find("website");
+            website.Content = model.Website;
+            var companyFullName = _db.SystemInfoes.Find("companyfullname");
+            companyFullName.Content = model.CompanyFullName;
+            var brand = _db.SystemInfoes.Find("brand");
+            brand.Content = model.Brand;
+            var headquater = _db.SystemInfoes.Find("headquater");
+            headquater.Content = model.Headquater;
+            try
+            {
+                _db.Entry(hotline).State = EntityState.Modified;
+                _db.Entry(email).State = EntityState.Modified;
+                _db.Entry(website).State = EntityState.Modified;
+                _db.Entry(companyFullName).State = EntityState.Modified;
+                _db.Entry(brand).State = EntityState.Modified;
+                _db.Entry(headquater).State = EntityState.Modified;
+
+                _db.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                isSuccess = false;
+            }
+
+            return isSuccess;
+        }
+
+        public SystemInfoViewModel GetSocialLink()
+        {
+            var systemInfo = new SystemInfoViewModel()
+            {
+                Facebook = _db.SystemInfoes.Find("facebook").Content,
+                Linkedin = _db.SystemInfoes.Find("linkedin").Content,
+                Youtube = _db.SystemInfoes.Find("youtube").Content,
+            };
+            return systemInfo;
+        }
+
+        public bool UpdateSocialLink(SystemInfoViewModel model)
+        {
+            bool isSuccess = true;
+            var facebook = _db.SystemInfoes.Find("facebook");
+            facebook.Content = model.Facebook;
+            var linkedin = _db.SystemInfoes.Find("linkedin");
+            linkedin.Content = model.Linkedin;
+            var youtube = _db.SystemInfoes.Find("youtube");
+            youtube.Content = model.Youtube;
 
             try
             {
-                _db.Entry(contactInfo).State = EntityState.Modified;
+                _db.Entry(facebook).State = EntityState.Modified;
+                _db.Entry(linkedin).State = EntityState.Modified;
+                _db.Entry(youtube).State = EntityState.Modified;
+
                 _db.SaveChanges();
             }
             catch (Exception e)

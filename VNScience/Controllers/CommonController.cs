@@ -29,6 +29,7 @@ namespace VNScience.Controllers
             ViewBag.Logo = systemInfoDAO.GetLogo();
             ViewBag.TopMenus = menuDAO.GetTopMenus();
             ViewBag.Categories = postCategoryDAO.GetAll();
+            ViewBag.SocialLinks = systemInfoDAO.GetSocialLink();
             return PartialView("Header");
         }
 
@@ -36,6 +37,8 @@ namespace VNScience.Controllers
         {
             ViewBag.Logo = systemInfoDAO.GetLogo();
             ViewBag.BottomMenus = menuDAO.GetBottomMenus();
+            ViewBag.SocialLinks = systemInfoDAO.GetSocialLink();
+            ViewBag.ContactInfo = systemInfoDAO.GetContactInfo();
             return PartialView("Footer");
         }
 

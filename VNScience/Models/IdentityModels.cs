@@ -30,6 +30,8 @@ namespace VNScience.Models
         public virtual ICollection<ProductCategory> UpdatedProductCategories { get; set; }
         public virtual ICollection<Product> CreatedProducts { get; set; }
         public virtual ICollection<Product> UpdatedProducts { get; set; }
+        public virtual ICollection<Ad> CreatedAds { get; set; }
+        public virtual ICollection<Ad> UpdatedAds { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -60,6 +62,7 @@ namespace VNScience.Models
         public virtual DbSet<Slide> Slides { get; set; }
         public virtual DbSet<ProductCategory> ProductCategories { get; set; }
         public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Ad> Ads { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -292,6 +295,19 @@ namespace VNScience.Models
             modelBuilder.Entity<Product>()
                 .HasOptional(e => e.CreatingUser)
                 .WithMany(e => e.CreatedProducts)
+                .HasForeignKey(e => e.CreatedBy)
+                .WillCascadeOnDelete(false);
+
+            //user vs ads
+            modelBuilder.Entity<Ad>()
+                 .HasOptional(e => e.UpdatingUser)
+                 .WithMany(e => e.UpdatedAds)
+                 .HasForeignKey(e => e.UpdatedBy)
+                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Ad>()
+                .HasOptional(e => e.CreatingUser)
+                .WithMany(e => e.CreatedAds)
                 .HasForeignKey(e => e.CreatedBy)
                 .WillCascadeOnDelete(false);
         }

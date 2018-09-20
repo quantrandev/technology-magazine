@@ -238,6 +238,7 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AboutController.cs" />
     <Compile Include="Areas\Admin\Controllers\AccountController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdController.cs" />
     <Compile Include="Areas\Admin\Controllers\AuthController.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\CommonController.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="Areas\Admin\Controllers\SlideController.cs" />
     <Compile Include="Areas\Admin\Controllers\SystemInfoController.cs" />
     <Compile Include="Areas\Admin\DataAccess\AboutDAO.cs" />
+    <Compile Include="Areas\Admin\DataAccess\AdDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\ContactDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\MenuDAO.cs" />
     <Compile Include="Areas\Admin\DataAccess\MenuTypeDAO.cs" />
@@ -376,7 +378,12 @@
     <Compile Include="Migrations\201809180509234_AddDescriptionColumnInProductCategoryTable.Designer.cs">
       <DependentUpon>201809180509234_AddDescriptionColumnInProductCategoryTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809200142320_AddAdsTable.cs" />
+    <Compile Include="Migrations\201809200142320_AddAdsTable.Designer.cs">
+      <DependentUpon>201809200142320_AddAdsTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Core\Ad.cs" />
     <Compile Include="Models\Core\Product.cs" />
     <Compile Include="Models\Core\ProductCategory.cs" />
     <Compile Include="Models\Core\Slide.cs" />
@@ -4931,6 +4938,9 @@
     <Content Include="Areas\Admin\Views\Product\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Product\Create.cshtml" />
     <Content Include="Areas\Admin\Views\ProductCategory\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Ad\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Ad\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Ad\Edit.cshtml" />
     <None Include="packages.config" />
     <Content Include="Views\Common\Header.cshtml" />
     <Content Include="Views\Common\Footer.cshtml" />
@@ -5023,6 +5033,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809180509234_AddDescriptionColumnInProductCategoryTable.resx">
       <DependentUpon>201809180509234_AddDescriptionColumnInProductCategoryTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809200142320_AddAdsTable.resx">
+      <DependentUpon>201809200142320_AddAdsTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

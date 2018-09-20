@@ -1,6 +1,9 @@
 ﻿@using VNScience.Models.Core
+@using VNScience.ViewModels
 @{ 
     var bottomMenus = (List<Menu>)ViewBag.BottomMenus;
+    var socialLinks = (SystemInfoViewModel)ViewBag.SocialLinks;
+    var contactInfo = (SystemInfoViewModel)ViewBag.ContactInfo;
 }
 <footer class="bg-191 color-ccc">
 
@@ -13,17 +16,11 @@
 
                 <div class="col-sm-4">
                     <div class="mb-30">
-                        <a href="#"><img src="@ViewBag.Logo"></a>
-                        <p class="mtb-20 color-ccc">
-                            Bit coin is an open-source, peer-to-peer, digital decentralized cryptocurrency.
-                            Powered by blockchain technology, its defining characteristic is
-                        </p>
-                        <p class="color-ash">
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;
-                            <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ion-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        </p>
+                        <h5 class="mb-20 color-primary"><b>@contactInfo.CompanyFullName.ToUpper()</b></h5>
+                        <p class="mb-10 color-ash"><i class="ion-ios-location mr-10"></i> Trụ sở chính: @contactInfo.Headquater</p>
+                        <p class="mb-10 color-ash"><i class="ion-android-phone-portrait mr-10"></i> Hotline: @contactInfo.Hotline</p>
+                        <p class="mb-10 color-ash"><i class="ion-android-mail mr-10"></i> Email: @contactInfo.Email</p>
+                        <p class="mb-10 color-ash"><i class="ion-android-globe mr-10"></i> Website: @contactInfo.Website</p>
                     </div><!-- mb-30 -->
                 </div><!-- col-md-4 -->
 
@@ -70,13 +67,15 @@
                     <li><a href="@item.Link" target="@item.Target">@item.Title</a></li>
                 }
             </ul>
-            <ul class="float-right float-sm-none list-a-plr-10 list-a-plr-sm-5 list-a-ptb-15 list-a-ptb-sm-5">
-                <li><a class="pl-0 pl-sm-10" href="#"><i class="ion-social-facebook"></i></a></li>
-                <li><a href="#"><i class="ion-social-twitter"></i></a></li>
-                <li><a href="#"><i class="ion-social-google"></i></a></li>
-                <li><a href="#"><i class="ion-social-instagram"></i></a></li>
-                <li><a href="#"><i class="ion-social-bitcoin"></i></a></li>
+            <ul class="float-sm-none list-a-plr-10 list-a-plr-sm-5 list-a-ptb-15 list-a-ptb-sm-5 text-right">
+                <li><a class="pl-0 pl-sm-10" href="@socialLinks.Facebook"><i class="ion-social-facebook"></i></a></li>
+                <li><a class="pl-0 pl-sm-10" href="@socialLinks.Youtube"><i class="ion-social-youtube"></i></a></li>
+                <li><a class="pl-0 pl-sm-10" href="@socialLinks.Linkedin"><i class="ion-social-linkedin"></i></a></li>
+                <li>© @DateTime.Now.Year @ViewBag.Brand. All Rights Reserved.</li>
             </ul>
+            <div>
+                
+            </div>
 
         </div><!-- oflow-hidden -->
     </div><!-- container -->

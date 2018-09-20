@@ -50,7 +50,10 @@
 <div class="col-sm-12 col-md-4">
     <h3 class="mb-20 mt-sm-50"><b>THÔNG TIN LIÊN HỆ</b></h3>
 
-    @Html.Raw(ViewBag.ContactInfo)
+    <p class="mb-10"><i class="ion-ios-location mr-10"></i> Trụ sở chính: @ViewBag.ContactInfo.Headquater</p>
+    <p class="mb-10"><i class="ion-android-phone-portrait mr-10"></i> Hotline: @ViewBag.ContactInfo.Hotline</p>
+    <p class="mb-10"><i class="ion-android-mail mr-10"></i> Email: @ViewBag.ContactInfo.Email</p>
+    <p class="mb-10"><i class="ion-android-globe mr-10"></i> Website: @ViewBag.ContactInfo.Website</p>
 </div><!-- col-md-6 -->
 
 @section page_header {

@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
+    <meta property="fb:app_id" content="1399098866888978" />
+    <meta property="fb:admins" content="103213953175521" />
 
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css?family=Encode+Sans+Expanded:400,600,700" rel="stylesheet">
@@ -36,11 +38,20 @@
     </style>
 </head>
 <body>
+    <div id="fb-root"></div>
+    <script>
+    (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&autoLogAppEvents=1&version=v3.1&appId=1399098866888978';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
 
     @{
         Html.RenderAction("Header", "Common", new { area = "" });
     }
-    
+
     @RenderSection("page_header", false)
 
     <section>

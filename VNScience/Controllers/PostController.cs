@@ -121,7 +121,9 @@ namespace VNScience.Controllers
 
         public JsonResult SearchPaging(string searchString, int page, int pageSize)
         {
-            var posts = postDAO.Search(searchString)
+            var posts = postDAO.Search(searchString);
+
+            var model = ProcessPost(posts, searchString)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .Select(e => new
@@ -132,12 +134,13 @@ namespace VNScience.Controllers
                     Author = e.CreatingUser.FullName,
                     ViewCount = e.ViewCount,
                     Time = DateTimeHelper.FormatDate(e.CreatedAt.Value),
-                    CoverImage = e.CoverImage
+                    CoverImage = e.CoverImage,
+                    Content = e.Content
                 });
 
             bool isAnyLeft = IsAnyLeftInSearch(searchString, page, pageSize);
 
-            return Json(new { status = 200, data = posts, isAnyLeft = isAnyLeft }, JsonRequestBehavior.AllowGet);
+            return Json(new { status = 200, data = model, isAnyLeft = isAnyLeft }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -153,7 +156,7 @@ namespace VNScience.Controllers
             var count = postDAO.Search(searchString)
                 .Skip((page - 1) * pageSize)
                 .Count();
-            
+
             if (count <= pageSize)
                 return false;
             return true;

@@ -15,8 +15,8 @@
         {
             <div class="col-sm-6">
                 <img src="@post.CoverImage" alt="">
-                <h4 class="pt-20"><a href="/tin-tuc/@post.MetaTitle-@post.Id?searchString=@ViewBag.SearchString"><b>@Html.Raw(@post.Title)</b></a></h4>
-                <p class="content-container" data-id="@post.Id"></p>
+                <h4 class="pt-20"><a href="/tin-tuc/@post.MetaTitle-@post.Id?searchString=@ViewBag.SearchString"><b class="title">@Html.Raw(@post.Title)</b></a></h4>
+                <div class="content-container hide">@Html.Raw(post.Content)</div>
                 <ul class="list-li-mr-20 pt-10 mb-30">
                     <li class="color-lite-black">
                         by <a href="#" class="color-black"><b>@post.CreatingUser.FullName,</b></a>
@@ -73,7 +73,8 @@
                             var newPost = `
                                 <div class="col-sm-6 animated fadeIn">
                                     <img src="`+ post.CoverImage + `" alt="">
-                                    <h4 class="pt-20 font-11"><a href="/tin-tuc/`+ post.MetaTitle + `-` + post.Id +`"><b>`+ post.Title + `</b></a></h4>
+                                    <h4 class="pt-20 font-11"><a href="/tin-tuc/`+ post.MetaTitle + `-` + post.Id + `?searchString=@ViewBag.SearchString"><b class="title-container">` + post.Title + `</b></a></h4>
+                                    <div class="content-container hide">`+post.Content+`</div>
                                     <ul class="list-li-mr-20 pt-10 mb-30">
                                         <li class="color-lite-black">
                                             by <a href="#" class="color-black"><b>`+ post.Author + `,</b></a>
@@ -86,6 +87,8 @@
                             `;
 
                             $('#js-posts-container').append(newPost);
+
+                            Highlight();
                         }
 
                         if (!res.isAnyLeft)
@@ -112,6 +115,50 @@
                 }
             }
         });
+    </script>
+
+    <script>
+        $(function () {
+            Highlight();
+        });
+
+        function Highlight() {
+            var searchString = '@ViewBag.SearchString';
+            if (searchString !== '' && searchString !== null) {
+                var searchParts = searchString.split(' ')
+                $('.title').each(function (index, value) {
+                    for (var i = 0; i < searchParts.length; i++) {
+                        value.innerHTML = value.innerHTML.replace(new RegExp(searchParts[i], 'gi'), function (e) {
+                            return '<b class=\'highlight\'>' + e + '</b>';
+                        });
+                    }
+                });
+
+                $('.content-container').each(function (index, value) {
+                    var isCompleted = false;
+                    $(value).find('p').each(function (i, v) {
+                        //if content has right value ==> return
+                        if (isCompleted) return;
+
+                        for (var i = 0; i < searchParts.length; i++) {
+                            var patt = new RegExp(searchParts[i], 'gi');
+
+                            if (patt.test(v.innerHTML)) {
+                                v.innerHTML = v.innerHTML.replace(new RegExp(searchParts[i], 'gi'), function (e) {
+                                    return '<b class=\'highlight\'>' + e + '</b>';
+                                });
+                                value.innerHTML = "";
+                                value.append(v);
+                                isCompleted = true;
+                            }
+                        }
+                    });
+
+                    if (isCompleted)
+                        $(value).show();
+                });
+            }
+        }
     </script>
 }
 

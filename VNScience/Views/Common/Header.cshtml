@@ -41,9 +41,22 @@
         <a class="menu-nav-icon" data-menu="#main-menu" href="#"><i class="ion-navicon"></i></a>
 
         <ul class="main-menu" id="main-menu">
-            @foreach (var item in (List<PostCategory>)ViewBag.Categories)
+            @foreach (var item in ((List<PostCategory>)ViewBag.Categories).Skip(0).Take(7))
             {
                 <li><a href="/danh-muc-tin/@item.MetaTitle-@item.Id">@item.Name.ToUpper()</a></li>
+            }
+
+            @if(((List<PostCategory>)ViewBag.Categories).Count > 7)
+            {
+                <li class="drop-down">
+                    <a href="#"><i class="fa fa-bars"></i></a>
+                    <ul class="drop-down-menu drop-down-inner">
+                        @foreach (var more in ((List<PostCategory>)ViewBag.Categories).Skip(7))
+                        {
+                            <li><a href="/danh-muc-tin/@more.MetaTitle-@more.Id">@more.Name</a></li>
+                        }
+                    </ul>
+                </li>
             }
         </ul>
         <div class="clearfix"></div>

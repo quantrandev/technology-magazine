@@ -1,0 +1,16 @@
+﻿@using VNScience.Models.Core
+@using VNScience.Common
+@{
+    var ads = (List<Ad>)ViewBag.Ads;
+    var topCenter = ads.Where(e => e.Position == (int)AdPosition.TopCenter).FirstOrDefault();
+}
+
+@if (topCenter != null)
+{
+    <section style="padding: 0" class="mb-10">
+        <div class="container">
+            <div class="mb-20 brdr-ash-1 opacty-5"></div>
+            <a href="@topCenter.Link" style="width: 100%" class="js-ad" data-id="@topCenter.Id"><img src="@topCenter.Content" /></a>
+        </div>
+    </section>
+}

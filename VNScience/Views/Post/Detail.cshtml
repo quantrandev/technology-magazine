@@ -7,12 +7,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var relatedPosts = (List<PostViewModel>)ViewBag.RelatedPosts;
+    var searchString = ViewBag.SearchString != null ? ViewBag.SearchString : "";
+
+    string[] searchParts = new string[0];
+    if (!string.IsNullOrEmpty(searchString))
+    {
+        searchParts = searchString.Split(' ');
+    }
+
+    var title = Model.Title;
+    foreach (var item in searchParts)
+    {
+        title = title.Replace(item, "<b class=\"highlight\">" + item + "</b>");
+    }
 }
 
 
 <div class="col-md-12 col-lg-8">
     <img src="@Model.CoverImage" alt="">
-    <h3 class="mt-30"><b>@Model.Title</b></h3>
+    <h3 class="mt-30"><b>@Html.Raw(title)</b></h3>
     <ul class="list-li-mr-20 mtb-15">
         <li>by <b>@Model.CreatingUser.FullName</b> @DateTimeHelper.FormatDate(Model.CreatedAt.Value)</li>
         <li><i class="color-primary mr-5 font-12 ion-ios-bolt"></i>@Model.ViewCount</li>
@@ -66,7 +79,11 @@
 
 </div>
 
-
+@section topcenter_ad {
+    @{
+        Html.RenderAction("TopCenter", "Common");
+    }
+}
 
 @section scripts {
     @*<script src="~/Assets/imakewebthings-waypoints-34d9f6d/lib/jquery.waypoints.min.js"></script>*@
@@ -78,7 +95,18 @@
                     success: function (res) {
 
                     }
+            });
+
+
+            var searchString = '@ViewBag.SearchString';
+            if (searchString !== '' && searchString !== null) {
+                var searchParts = searchString.split(' ')
+                $('.content-container').find('p').each(function (index, value) {
+                    for (var i = 0; i < searchParts.length; i++) {
+                        value.innerHTML = value.innerHTML.replace(new RegExp(searchParts[i], 'g'), "<b class='highlight'>" + searchParts[i] + "</b> ");
+                    }
                 });
+            }
         });
     </script>
 }

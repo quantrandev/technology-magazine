@@ -14,10 +14,12 @@ namespace VNScience.Controllers
     {
         ApplicationDbContext db = new ApplicationDbContext();
         ClientPostDAO postDAO;
+        AdDAO adDAO;
 
         public HomeController()
         {
             postDAO = new ClientPostDAO(db);
+            adDAO = new AdDAO(db);
         }
 
         public ActionResult Index()
@@ -43,6 +45,13 @@ namespace VNScience.Controllers
             bool isAnyLeft = postDAO.IsAnyLeft(page, pageSize);
 
             return Json(new { status = 200, data = posts, isAnyLeft = isAnyLeft }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult IncreaseClickCount(int id)
+        {
+            bool isSuccess = adDAO.IncreaseClickCount(id);
+            return Json(new { status = isSuccess ? 200 : 500 }, JsonRequestBehavior.AllowGet);
         }
     }
 }

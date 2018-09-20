@@ -53,8 +53,11 @@ namespace VNScience.Areas.Admin.Controllers
                 {
                     var postToDisplay = Mapper.Map<PostViewModel>(post);
 
-                    if ((postToDisplay.Title != null ? postToDisplay.Title.Contains(searchString) : false)
-                    || (postToDisplay.Summary != null ? postToDisplay.Summary.Contains(searchString) : false)
+                    if ((postToDisplay.Title != null ? postToDisplay.Title.Contains(searchString) : false))
+                    {
+                        postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatchTitle;
+                    }
+                    else if ((postToDisplay.Summary != null ? postToDisplay.Summary.Contains(searchString) : false)
                     || (postToDisplay.Content != null ? postToDisplay.Content.Contains(searchString) : false)
                     || postToDisplay.CreatingUser.FullName.Contains(searchString)
                     || (postToDisplay.UpdatingUser != null ? postToDisplay.UpdatingUser.FullName.Contains(searchString) : false)
@@ -64,19 +67,22 @@ namespace VNScience.Areas.Admin.Controllers
                     || (postToDisplay.Tags != null ? postToDisplay.Tags.Select(e => e.Name).Contains(searchString) : false)
                     )
                     {
-                        postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatch;
+                        postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatchOther;
                     }
-                    else if ((postToDisplay.Title != null ? postToDisplay.Title.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
-                    || (postToDisplay.Summary != null ? postToDisplay.Summary.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
+                    else if ((postToDisplay.Title != null ? postToDisplay.Title.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false))
+                    {
+                        postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatchTitleButScrambled;
+                    }
+                    else if ((postToDisplay.Summary != null ? postToDisplay.Summary.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
                     || (postToDisplay.Content != null ? postToDisplay.Content.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
                     || postToDisplay.CreatingUser.FullName.Split(' ').Intersect(searchParts).Count() == searchParts.Length
                     || (postToDisplay.UpdatingUser != null ? postToDisplay.UpdatingUser.FullName.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
                     || (postToDisplay.References != null ? postToDisplay.References.Split(' ').Intersect(searchParts).Count() == searchParts.Length : false)
-                    || postToDisplay.PostCategory.Name.Split(' ').Intersect(searchParts).Count() == searchParts.Length
                     || (postToDisplay.Tags != null ? postToDisplay.Tags.Any(e => e.Id.Split('-').Intersect(searchParts).Count() == searchParts.Length) : false)
-                    || (postToDisplay.Tags != null ? postToDisplay.Tags.Any(e => e.Name.Split(' ').Intersect(searchParts).Count() == searchParts.Length) : false))
+                    || (postToDisplay.Tags != null ? postToDisplay.Tags.Any(e => e.Name.Split(' ').Intersect(searchParts).Count() == searchParts.Length) : false)
+                    || postToDisplay.PostCategory.Name.Split(' ').Intersect(searchParts).Count() == searchParts.Length)
                     {
-                        postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatchButScrambled;
+                        postToDisplay.SearchMatchingType = SearchMatchingType.FullyMatchOtherButScrambled;
                     }
                     else
                     {

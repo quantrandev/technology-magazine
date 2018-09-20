@@ -15,6 +15,7 @@ namespace VNScience.Controllers
         SystemInfoDAO systemInfoDAO;
         MenuDAO menuDAO;
         PostCategoryDAO postCategoryDAO;
+        AdDAO adDAO;
 
         public CommonController()
         {
@@ -22,6 +23,7 @@ namespace VNScience.Controllers
             menuDAO = new MenuDAO(db);
             postDAO = new PostDAO(db);
             systemInfoDAO = new SystemInfoDAO(db);
+            adDAO = new AdDAO(db);
         }
 
         public PartialViewResult Header()
@@ -39,12 +41,23 @@ namespace VNScience.Controllers
             ViewBag.BottomMenus = menuDAO.GetBottomMenus();
             ViewBag.SocialLinks = systemInfoDAO.GetSocialLink();
             ViewBag.ContactInfo = systemInfoDAO.GetContactInfo();
+            ViewBag.MostViews = postDAO.MostViews(1, 2);
+            ViewBag.Recents = postDAO.GetAllWithUserAndCategory().Skip(0).Take(2).ToList();
             return PartialView("Footer");
         }
 
         public PartialViewResult RightCol()
         {
+            ViewBag.Ads = adDAO.GetAll();
+
             return PartialView("RightCol");
+        }
+
+        public PartialViewResult TopCenter()
+        {
+            ViewBag.Ads = adDAO.GetAll();
+
+            return PartialView("TopCenter");
         }
     }
 }

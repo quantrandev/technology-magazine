@@ -32,7 +32,7 @@ namespace VNScience.Areas.Admin.DataAccess
                 .Where(e => e.Id != id)
                 .ToList();
         }
-
+        
         //CRUD
         public bool Insert(Ad ad)
         {
@@ -85,5 +85,20 @@ namespace VNScience.Areas.Admin.DataAccess
             return isSuccess;
         }
 
+        public bool IncreaseClickCount(int id)
+        {
+            bool isSuccess = true;
+            try
+            {
+                var ad = _db.Ads.Find(id);
+                ad.ClickCount = ad.ClickCount + 1;
+                _db.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                isSuccess = false;
+            }
+            return isSuccess;
+        }
     }
 }

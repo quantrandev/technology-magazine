@@ -241,9 +241,11 @@ namespace VNScience.Common
 
     public enum SearchMatchingType
     {
-        FullyMatch = 1,
-        FullyMatchButScrambled = 2,
-        PartialMatch = 3
+        FullyMatchTitle = 1,
+        FullyMatchOther = 2,
+        FullyMatchTitleButScrambled = 3,
+        FullyMatchOtherButScrambled = 4,
+        PartialMatch = 5
     }
 
     public enum MessageType
